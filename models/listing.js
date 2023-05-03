@@ -1,4 +1,5 @@
 'use strict';
+
 class Listing {
 	static async create(data) {
 		const result = await db.query(

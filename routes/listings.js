@@ -7,7 +7,7 @@ const express = require("express");
 
 const { BadRequestError } = require("../expressError");
 const { ensureAdmin } = require("../middleware/auth");
-import Listing from "../models/Listing";
+import Listing from "../models/listing";
 
 const listingNewSchema = require("../schemas/listingNew.json");
 const listingUpdateSchema = require("../schemas/listingUpdate.json");
