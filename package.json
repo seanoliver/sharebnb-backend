@@ -16,6 +16,7 @@
     "@aws-sdk/s3-request-presigner": "^3.325.0",
     "@aws-sdk/util-create-request": "^3.325.0",
     "aws-sdk": "^2.1370.0",
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "express": "^5.0.0-beta.1",
     "multer": "^1.4.5-lts.1",
