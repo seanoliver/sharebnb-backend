@@ -1,0 +1,59 @@
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(25) NOT NULL,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(75) NOT NULL,
+  password TEXT NOT NULL,
+  email TEXT NOT NULL CHECK (position('@' IN email) > 1)
+);
+
+CREATE TABLE listings (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(75) NOT NULL,
+  description TEXT NOT NULL,
+  price INTEGER NOT NULL CHECK (price >= 0),
+  street VARCHAR(50) NOT NULL,
+  city VARCHAR(50) NOT NULL,
+  state VARCHAR(2) NOT NULL,
+  zip VARCHAR(5) NOT NULL,
+  genre VARCHAR(25),
+  owner_id INTEGER NOT NULL REFERENCES users ON DELETE CASCADE
+);
+
+CREATE TABLE conversations (
+  id SERIAL PRIMARY KEY,
+  renter_id INTEGER REFERENCES users ON DELETE CASCADE,
+  owner_id INTEGER REFERENCES users ON DELETE CASCADE,
+  listing_id INTEGER REFERENCES listings ON DELETE CASCADE,
+  UNIQUE (renter_id, owner_id, listing_id)
+);
+
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  conversation_id INTEGER REFERENCES conversations ON DELETE CASCADE,
+  sender_id INTEGER REFERENCES users ON DELETE CASCADE,
+  body TEXT NOT NULL,
+  sent_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE bookings (
+  id SERIAL PRIMARY KEY,
+  owner_id INTEGER NOT NULL REFERENCES users ON DELETE CASCADE,
+  renter_id INTEGER NOT NULL REFERENCES users ON DELETE CASCADE,
+  listing_id INTEGER NOT NULL REFERENCES listings ON DELETE CASCADE,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE bookable_days (
+  id SERIAL PRIMARY KEY,
+  day DATE NOT NULL,
+  available BOOLEAN NOT NULL,
+  listing_id INTEGER NOT NULL REFERENCES listings ON DELETE CASCADE,
+  booking_id INTEGER REFERENCES bookings ON DELETE CASCADE
+);
+
+CREATE TABLE photos (
+  id SERIAL PRIMARY KEY,
+  listing_id INTEGER NOT NULL REFERENCES listings ON DELETE CASCADE,
+  photo_url TEXT NOT NULL
+);
