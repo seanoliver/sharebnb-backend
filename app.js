@@ -6,11 +6,15 @@ import { Upload } from '@aws-sdk/lib-storage';
 import express from 'express';
 import multer from 'multer';
 import { config } from 'dotenv';
+import cors from 'cors';
 
 // Bringing in dotenv variables
 config();
 
 const app = express();
+
+// MIDDLEWARE: CORS
+app.use(cors());
 
 // AWS SDK Configuration
 const s3Client = new S3Client({
