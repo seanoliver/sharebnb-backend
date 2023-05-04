@@ -122,7 +122,7 @@ class Listing {
 		const listingRes = await db.query(
 			`
      SELECT id as listingId,
-            name
+            name,
             description,
             price,
             street,
@@ -150,7 +150,7 @@ class Listing {
 		const listingRes = await db.query(
 			`
       SELECT id as listingId,
-            name
+            name,
             description,
             price,
             street,
@@ -198,7 +198,7 @@ class Listing {
         SET ${setCols}
         WHERE id = ${idVarIdx}
         RETURNING id as listingId,
-        name
+        name,
         description,
         price,
         street,
