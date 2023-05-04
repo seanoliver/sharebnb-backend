@@ -57,3 +57,6 @@ CREATE TABLE photos (
   listing_id INTEGER NOT NULL REFERENCES listings ON DELETE CASCADE,
   photo_url TEXT NOT NULL
 );
+
+
+
