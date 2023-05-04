@@ -1,12 +1,16 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { S3RequestPresigner } from "@aws-sdk/s3-request-presigner";
-import { createRequest } from "@aws-sdk/util-create-request";
-import { formatUrl } from "@aws-sdk/util-format-url";
-import { Upload } from "@aws-sdk/lib-storage";
-import express from "express";
-import multer from "multer";
-import { config } from "dotenv";
-import cors from "cors";
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const { S3RequestPresigner } = require("@aws-sdk/s3-request-presigner");
+const { createRequest } = require("@aws-sdk/util-create-request");
+const { formatUrl } = require("@aws-sdk/util-format-url");
+const { Upload } = require("@aws-sdk/lib-storage");
+
+
+
+const express = require("express");
+const cors = require("cors");
+const multer = require('multer');
+const { config } = require('dotenv');
+
 
 // Bringing in dotenv variables
 config();

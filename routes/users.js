@@ -1,16 +1,12 @@
 "use strict";
 
 /** Routes for Users */
-
-import jsonschema from "jsonschema";
-import express from "express";
-import bcrypt from "bcrypt";
-import User from "../models/user";
-import userUpdateSchema from "../schemas/userUpdate.json";
-import { createToken } from "../helpers/tokens";
-
-
-
+const bcrypt = require('bcrypt');
+const jsonschema = require("jsonschema");
+const express = require("express");
+const { BadRequestError } = require("../expressError");
+const User = require("../models/user");
+const userUpdateSchema = require("../schemas/userUpdate.json");
 
 const router = express.Router();
 

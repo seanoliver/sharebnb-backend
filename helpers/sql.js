@@ -1,6 +1,6 @@
 "use strict";
 
-import { BadRequestError } from "../expressError";
+const { BadRequestError } = require('../expressError');
 
 /**
  * Helper for making selective update queries.

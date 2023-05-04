@@ -1,9 +1,16 @@
 'use strict';
-import db from '../db';
-import bcrypt from 'bcrypt';
-import { BCRYPT_WORK_FACTOR } from '../config';
-import { BadRequestError, UnauthorizedError } from '../expressError';
-import { sqlForPartialUpdate } from '../helpers/sql';
+
+const db = require("../db");
+const bcrypt = require("bcrypt");
+const { sqlForPartialUpdate } = require("../helpers/sql");
+const {
+  NotFoundError,
+  BadRequestError,
+  UnauthorizedError,
+} = require("../expressError");
+
+const { BCRYPT_WORK_FACTOR } = require("../config.js");
+
 
 class User {
 	/** authenticate user with username, password.
@@ -221,4 +228,5 @@ class User {
 		if (!user) throw new NotFoundError(`No user: ${id}`);
 	}
 }
-export default User;
+
+module.exports = User;

@@ -1,7 +1,8 @@
 'use strict';
 
-import jwt from 'jsonwebtoken';
-import { SECRET_KEY } from '../config';
+const jwt = require('jsonwebtoken');
+const { SECRET_KEY } = require('../config');
+
 
 /** return signed JWT from user data. */
 
@@ -13,4 +14,4 @@ function createToken(user) {
   return jwt.sign(payload, SECRET_KEY);
 }
 
-export { createToken };
+module.exports = { createToken };

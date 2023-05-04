@@ -2,8 +2,8 @@
 
 /** Shared config for application; can be required many places. */
 
-import { config } from "dotenv";
-import "colors";
+const { config } = require('dotenv');
+require('colors');
 
 config();
 const SECRET_KEY = process.env.SECRET_KEY || "secret-dev";

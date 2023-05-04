@@ -3,9 +3,8 @@
 /** Database setup for sharebnb */
 
 const { Client } = require("pg");
-import {Client} from 'pg';
 
-import { getDatabaseUri } from "./config";
+const { getDatabaseUri } =require("./config");
 
 const db = new Client({
   connectionString: getDatabaseUri(),
