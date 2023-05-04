@@ -14,7 +14,7 @@ const app = express();
 
 // AWS SDK Configuration
 const s3Client = new S3Client({
-	region: 'us-west-1',
+	region: process.env.AWS_REGION,
 	credentials: {
 		accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -28,6 +28,7 @@ const upload = multer();
 app.post('/upload-image', upload.single('image'), async (req, res) => {
 	try {
 		const file = req.file;
+		console.log("file:", file);
 		const key = Date.now().toString() + '_' + file.originalname;
 		const bucketName = process.env.AWS_S3_BUCKET_NAME;
 
@@ -42,6 +43,7 @@ app.post('/upload-image', upload.single('image'), async (req, res) => {
 				ContentDisposition: 'inline',
 			},
 		});
+		console.log("upload:", upload);
 		await upload.done();
 
 		// Generate a pre-signed URL for the uploaded file
