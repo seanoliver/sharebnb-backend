@@ -4,6 +4,8 @@ const db = require('../db');
 const { sqlForPartialUpdate } = require('../helpers/sql');
 const { NotFoundError } = require('../expressError');
 
+const HOSTNAME = process.env.HOSTNAME;
+
 /** Listing
  *
  */

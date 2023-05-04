@@ -9,9 +9,9 @@ const { BadRequestError } = require("../expressError");
 const { ensureAdmin } = require("../middleware/auth");
 const Listing = require("../models/listing");
 
-const listingNewSchema = require("../schemas/listingNew.json");
-const listingUpdateSchema = require("../schemas/listingUpdate.json");
-const listingSearchSchema = require("../schemas/listingSearch.json");
+// const listingNewSchema = require("../schemas/listingNew.json");
+// const listingUpdateSchema = require("../schemas/listingUpdate.json");
+// const listingSearchSchema = require("../schemas/listingSearch.json");
 
 const router = new express.Router();
 
@@ -46,13 +46,13 @@ router.post("/", async function (req, res, next) {
 router.get("/", async function (req, res, next) {
   const q = req.query;
 
-  const validator = jsonschema.validate(q, listingSearchSchema, {
-    required: true,
-  });
-  if (!validator.valid) {
-    const errs = validator.errors.map((e) => e.stack);
-    throw new BadRequestError(errs);
-  }
+  // const validator = jsonschema.validate(q, listingSearchSchema, {
+  //   required: true,
+  // });
+  // if (!validator.valid) {
+  //   const errs = validator.errors.map((e) => e.stack);
+  //   throw new BadRequestError(errs);
+  // }
 
   const jobs = await Listing.findAll(q);
   return res.json({ jobs });
@@ -68,13 +68,13 @@ router.get("/", async function (req, res, next) {
 router.get("/:id", async function (req, res, next) {
   const listing = await Listing.get(req.params.id);
 
-  const validator = jsonschema.validate(q, listingSearchSchema, {
-    required: true,
-  });
-  if (!validator.valid) {
-    const errs = validator.errors.map((e) => e.stack);
-    throw new BadRequestError(errs);
-  }
+  // const validator = jsonschema.validate(q, listingSearchSchema, {
+  //   required: true,
+  // });
+  // if (!validator.valid) {
+  //   const errs = validator.errors.map((e) => e.stack);
+  //   throw new BadRequestError(errs);
+  // }
 
   return res.json({ listing });
 });
@@ -89,7 +89,7 @@ router.get("/:id", async function (req, res, next) {
  * Authorization required: admin
  */
 
-router.patch("/:id", ensureListingOwner, async function (req, res, next) {
+router.patch("/:id", async function (req, res, next) {
   const validator = jsonschema.validate(req.body, listingUpdateSchema, {
     required: true,
   });
@@ -109,7 +109,7 @@ router.patch("/:id", ensureListingOwner, async function (req, res, next) {
  *
  */
 
-router.delete("/:id", ensureListingOwner, async function (req, res, next) {
+router.delete("/:id", async function (req, res, next) {
   await Listing.remove(req.params.id);
   return res.json({ deleted: +req.params.id });
 });

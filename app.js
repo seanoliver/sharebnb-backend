@@ -10,7 +10,7 @@ const express = require("express");
 const cors = require("cors");
 const multer = require('multer');
 const { config } = require('dotenv');
-
+const listingRoutes = require('./routes/listings');
 
 // Bringing in dotenv variables
 config();
@@ -19,6 +19,7 @@ const app = express();
 
 // MIDDLEWARE: CORS
 app.use(cors());
+app.use('/listings', listingRoutes);
 
 // AWS SDK Configuration
 const s3Client = new S3Client({
