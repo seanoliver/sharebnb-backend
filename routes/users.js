@@ -7,7 +7,6 @@ import express from "express";
 import bcrypt from "bcrypt";
 import User from "../models/user";
 import userUpdateSchema from "../schemas/userUpdate.json";
-import userNewSchema from "../schemas/userNew.json";
 import { createToken } from "../helpers/tokens";
 
 

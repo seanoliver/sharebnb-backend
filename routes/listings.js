@@ -88,7 +88,7 @@ router.get("/:id", async function (req, res, next) {
  * Authorization required: admin
  */
 
-router.patch("/:id", ensureAdmin, async function (req, res, next) {
+router.patch("/:id", ensureListingOwner, async function (req, res, next) {
   const validator = jsonschema.validate(req.body, listingUpdateSchema, {
     required: true,
   });
@@ -108,7 +108,7 @@ router.patch("/:id", ensureAdmin, async function (req, res, next) {
  *
  */
 
-router.delete("/:id", ensureAdmin, async function (req, res, next) {
+router.delete("/:id", ensureListingOwner, async function (req, res, next) {
   await Listing.remove(req.params.id);
   return res.json({ deleted: +req.params.id });
 });
