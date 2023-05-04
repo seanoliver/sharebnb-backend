@@ -46,6 +46,18 @@ class Listing {
       ]
     );
     const listing = result.rows[0];
+
+    const newPhoto = await db.query(
+      `INSERT INTO photos (
+        listing_id, photo_url
+      )
+      VALUES($1, $2)
+      RETURNING
+        id as photoId
+        `,
+      [listing.listingID, data.photoUrl]
+    );
+    listing.photos = newPhoto.rows[0];
     return listing;
   }
 
@@ -153,7 +165,13 @@ class Listing {
     const listing = listingRes.rows[0];
 
     if (!listing) throw new NotFoundError(`No listing: ${id}`);
-
+      const listingPhoto = await db.query(
+        `SELECT photo_url
+        FROM photos
+        WHERE listing_id = $1`,
+        [listing.id]
+      )
+      listing.photoUrl = HOSTNAME + listingPhoto.rows[0];
     return listing;
   }
 

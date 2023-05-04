@@ -1,0 +1,12 @@
+{
+    "name": "Listing Name",
+    "description": "Listing Description",
+    "price": "123",
+    "street": "123 Main St.",
+    "city": "Tokyo",
+    "state": "FL",
+    "zip": "12345",
+    "genre": "House",
+    "files": ""
+
+}

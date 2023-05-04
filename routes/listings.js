@@ -22,14 +22,15 @@ const router = new express.Router();
  *
  */
 router.post("/", async function (req, res, next) {
-  const validator = jsonschema.validate(req.body, listingNewSchema, {
-    required: true,
-  });
-  if (!validator.valid) {
-    const errs = validator.errors.map((e) => e.stack);
-    throw new BadRequestError(errs);
-  }
-  req.body.userId = res.local.userId; //or whereever it is stored
+  //TODO: validate:
+  // const validator = jsonschema.validate(req.body, listingNewSchema, {
+  //   required: true,
+  // });
+  // if (!validator.valid) {
+  //   const errs = validator.errors.map((e) => e.stack);
+  //   throw new BadRequestError(errs);
+  // }
+  // req.body.userId = res.local.userId; //or whereever it is stored
   const listing = await Listing.create(req.body);
   return res.status(201).json({ listing });
 });
