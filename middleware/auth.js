@@ -42,6 +42,14 @@ function ensureLoggedIn(req, res, next) {
   throw new UnauthorizedError();
 }
 
+/**
+ * Middleware to confirm user is owner of listing
+ */
+// TODO: Test this.
+function ensureListingOwner(req, res, next) {
+  if (res.locals.user?.id === req.params.owner_id) return next();
+  throw new UnauthorizedError();
+}
 
 
 

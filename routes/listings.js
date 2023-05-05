@@ -5,7 +5,7 @@
 const jsonschema = require('jsonschema');
 const express = require('express');
 
-const { BadRequestError } = require('../expressError');
+const { BadRequestError, NotFoundError } = require('../expressError');
 const { ensureAdmin } = require('../middleware/auth');
 const Listing = require('../models/listing');
 
@@ -52,6 +52,11 @@ router.post('/', async function (req, res, next) {
  */
 router.get('/', async function (req, res, next) {
 	const q = req.query;
+
+	// Parse price query params to integers.
+	if (q.minPrice !== undefined) q.minPrice = parseInt(q.minPrice, 10);
+	if (q.maxPrice !== undefined) q.maxPrice = parseInt(q.maxPrice, 10);
+
 	const validator = jsonschema.validate(q, listingSearchSchema, {
 		required: true,
 	});
@@ -60,62 +65,71 @@ router.get('/', async function (req, res, next) {
 		const errs = validator.errors.map(e => e.stack);
 		throw new BadRequestError(errs);
 	}
-
 	const listings = await Listing.findAll(q);
 	return res.json({ listings });
 });
 
-/** GET /[listingId] => { listing }
- *
- * Get a listing by Id
- *
+/**
+ * Get listing by ID.
+ * @route GET /[listingId]
+ * @param {Object} req - Request with listing ID in params.
+ * @param {Object} res - Response object.
+ * @param {Function} next - Next middleware.
+ * @returns {Object} Listing: { listing }.
  */
-
 router.get('/:id', async function (req, res, next) {
 	const listing = await Listing.get(req.params.id);
-
-	// const validator = jsonschema.validate(q, listingSearchSchema, {
-	//   required: true,
-	// });
-	// if (!validator.valid) {
-	//   const errs = validator.errors.map((e) => e.stack);
-	//   throw new BadRequestError(errs);
-	// }
-
 	return res.json({ listing });
 });
 
-/** PATCH /[listingId]  { fld1, fld2, ... } => { listing }
- *
- * Data can include:
- *
- * Update an existing listing
- *
- * Authorization required: admin
- */
+// TODO: Support adding and removing photos from a listing.
 
+/**
+ * Update existing listing.
+ * @route PATCH /[listingId]
+ * @param {Object} req - Request with listing ID in params and update data in body.
+ * @param {Object} res - Response object.
+ * @param {Function} next - Next middleware.
+ * @returns {Object} Updated listing: { listing }.
+ * @throws {BadRequestError} If request body doesn't match listingUpdateSchema.
+ * @requires Authorization: owner
+ */
 router.patch('/:id', async function (req, res, next) {
+	// TODO: Add validation for owner authorization: isListingOwner
+
 	const validator = jsonschema.validate(req.body, listingUpdateSchema, {
 		required: true,
 	});
+
 	if (!validator.valid) {
 		const errs = validator.errors.map(e => e.stack);
 		throw new BadRequestError(errs);
 	}
 
-	const job = await Listing.update(req.params.id, req.body);
-	return res.json({ job });
+	const listing = await Listing.update(req.params.id, req.body);
+	return res.json({ listing });
 });
 
-/** DELETE /:id  =>  { deleted: id }
- *
- * Delete a listing by id
- *
+/**
+ * Delete listing by ID; returns { deleted: listingId }.
+ * @route DELETE /:id
+ * @param {Object} req - Request with listing ID in params.
+ * @param {Object} res - Response object.
+ * @param {Function} next - Next middleware.
+ * @returns {Object} Deleted listing ID: { deleted: listingId }.
+ * @throws {BadRequestError} If no listing ID provided.
  */
-
 router.delete('/:id', async function (req, res, next) {
-	await Listing.remove(req.params.id);
-	return res.json({ deleted: +req.params.id });
+	// TODO: Add isAccountOwner middleware
+
+	let listingId = req.params.id;
+
+	if (!listingId) throw new BadRequestError('No listing ID provided');
+
+	listingId = parseInt(listingId, 10);
+	await Listing.remove(listingId);
+
+	return res.json({ deleted: listingId });
 });
 
 module.exports = router;

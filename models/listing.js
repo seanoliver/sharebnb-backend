@@ -150,101 +150,101 @@ class Listing {
 		return listingRes.rows;
 	}
 
-	/** Given a listing id, return data about listing.
-	 *
-	 * Returns { listingId, name, description, price, street, city, state, zip, genre, ownerId }
-	 *
-	 * Throws NotFoundError if not found.
-	 **/
-
-	static async get(id) {
-		const listingRes = await db.query(
+	/**
+	 * Get data about listing by ID.
+	 * @param {number} listingId - The ID of the listing to retrieve.
+	 * @returns {Object} Listing data:
+	 *   { listingId, name, description, price, street, city, state, zip, genre, ownerId, photoUrl }
+	 * @throws {NotFoundError} If listing not found.
+	 */
+	static async get(listingId) {
+		const listingResult = await db.query(
 			`
-      SELECT id as listingId,
-            name,
-            description,
-            price,
-            street,
-            city,
-            state,
-            zip,
-            genre,
-            owner_id as ownerId
+      SELECT id AS listingId,
+             name,
+             description,
+             price,
+             street,
+             city,
+             state,
+             zip,
+             genre,
+             owner_id AS ownerId
         FROM listings
-        WHERE id = $1`,
-			[id]
+       WHERE id = $1`,
+			[listingId]
 		);
 
-		const listing = listingRes.rows[0];
+		const listing = listingResult.rows[0];
 
-		if (!listing) throw new NotFoundError(`No listing: ${id}`);
-		const result = await db.query(
-			`SELECT photo_url
-        FROM photos
-        WHERE listing_id = $1`,
-			[listing.listingid]
+		if (!listing) throw new NotFoundError(`No listing: ${listingId}`);
+
+		const photoResult = await db.query(
+			`SELECT photo_url AS photoUrl
+       FROM photos
+      WHERE listing_id = $1`,
+			[listing.listingId]
 		);
-		const photoUrl = result.rows[0].photo_url;
-		console.log('photoUrl:', photoUrl);
-		listing.photoUrl = photoUrl;
-		console.log('listing!!!:', listing);
+
+		const photo = photoResult.rows[0];
+		if (photo) listing.photoUrl = photo.photoUrl;
+
 		return listing;
 	}
 
-	/** Update listing data with `data`.
-	 *
-	 * This is a "partial update" --- it's fine if data doesn't contain
-	 * all the fields; this only changes provided ones.
-	 *
-	 * Data can include: { name, description, price, street, city, state, zip, genre }
-	 *
-	 * Returns: { listingId, name, description, price, street, city, state, zip, genre, ownerId }
-	 *
-	 * Throws NotFoundError if not found.
+	/**
+	 * Update listing data with provided fields.
+	 * This is a "partial update" - only changes provided fields.
+	 * @param {number} listingId - The ID of the listing to update.
+	 * @param {Object} data - Data to update:
+	 *   { name, description, price, street, city, state, zip, genre }
+	 * @returns {Object} Updated listing data:
+	 *   { listingId, name, description, price, street, city, state, zip, genre, ownerId }
+	 * @throws {NotFoundError} If listing not found.
 	 */
-
-	static async update(id, data) {
+	static async update(listingId, data) {
 		const { setCols, values } = sqlForPartialUpdate(data, {});
 		const idVarIdx = '$' + (values.length + 1);
 
 		const querySql = `
-        UPDATE listings
-        SET ${setCols}
-        WHERE id = ${idVarIdx}
-        RETURNING id as listingId,
-        name,
-        description,
-        price,
-        street,
-        city,
-        state,
-        zip,
-        genre,
-        owner_id as ownerId`;
-		const result = await db.query(querySql, [...values, id]);
+    UPDATE listings
+    SET ${setCols}
+    WHERE id = ${idVarIdx}
+    RETURNING id AS listingId,
+              name,
+              description,
+              price,
+              street,
+              city,
+              state,
+              zip,
+              genre,
+              owner_id AS ownerId`;
+		const result = await db.query(querySql, [...values, listingId]);
 		const listing = result.rows[0];
 
-		if (!listing) throw new NotFoundError(`No listing: ${id}`);
+		if (!listing) throw new NotFoundError(`No listing: ${listingId}`);
 
 		return listing;
 	}
 
-	/** Delete given listing from database; returns undefined.
-	 *
-	 * Throws NotFoundError if company not found.
-	 **/
-
-	static async remove(id) {
+	/**
+	 * Delete listing from database; returns undefined.
+	 * @param {number} listingId - The ID of the listing to delete.
+	 * @throws {NotFoundError} If listing not found.
+	 */
+	static async remove(listingId) {
 		const result = await db.query(
 			`DELETE
-         FROM listing
-         WHERE id = $1
-         RETURNING id`,
-			[id]
+       FROM listings
+       WHERE id = $1
+       RETURNING id`,
+			[listingId]
 		);
+
 		const listing = result.rows[0];
 
-		if (!listing) throw new NotFoundError(`No listing: ${id}`);
+		if (!listing) throw new NotFoundError(`No listing: ${listingId}`);
 	}
 }
 

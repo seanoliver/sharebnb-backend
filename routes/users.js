@@ -10,41 +10,6 @@ const userUpdateSchema = require('../schemas/userUpdate.json');
 
 const router = express.Router();
 
-/** POST: register new user
- *
- * Accepts JSON: { username, password }
- * Returns JSON: { message }
- *
- */
-router.post('/register', (req, res) => {
-	const { username, password } = req.body;
-
-	bcrypt.hash(password, 10, (err, hashedPassword) => {
-		if (err) {
-			return res.status(500).json({ error: err.message });
-		}
-
-		const newUser = new User({ username, password: hashedPassword });
-
-		newUser.register(err => {
-			if (err) {
-				return res.status(500).json({ error: err.message });
-			}
-			res.status(201).json({ message: 'User registered successfully' });
-		});
-	});
-});
-
-/** POST: login user
- *
- * Accepts JSON: { username, password }
- * Returns JSON: { message }
- *
- */
-router.post('/login', (req, res) => {
-	res.status(200).json({ message: 'Logged in successfully' });
-});
-
 /** GET / => { users: [ {username, firstName, lastName, email }, ... ] }
  *
  * Returns list of all users.
@@ -101,17 +66,6 @@ router.delete('/:username', async function (req, res, next) {
 	return res.json({ deleted: req.params.username });
 });
 
-/** POST /[username]/jobs/[id]  { state } => { application }
- *
- * Returns {"applied": jobId}
- *
- * Authorization required: admin or same-user-as-:username
- * */
 
-router.post('/:username/jobs/:id', async function (req, res, next) {
-	const jobId = +req.params.id;
-	await User.applyToJob(req.params.username, jobId);
-	return res.json({ applied: jobId });
-});
 
 module.exports = router;
