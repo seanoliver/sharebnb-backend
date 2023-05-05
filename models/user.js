@@ -91,23 +91,19 @@ class User {
 		return user;
 	}
 
-	/** Find all users.
-	 *
-	 * Returns [{ id, username, first_name, last_name, email, is_admin }, ...]
-	 **/
-
+	/**
+	 * Get list of all users.
+	 * @returns {Array} Users: [{ id, username, firstName, lastName, email }, ...]
+	 */
 	static async getAll() {
 		const result = await db.query(
-			`
-    SELECT id,
-           username,
-           password,
-           first_name as firstName,
-           last_name as lastName,
-           email
-      FROM users
-  ORDER BY username
-    `
+			`SELECT id,
+							username,
+							first_name AS firstName,
+							last_name AS lastName,
+							email
+				 FROM users
+		 ORDER BY username`
 		);
 		return result.rows;
 	}
@@ -162,18 +158,16 @@ class User {
 		return user;
 	}
 
-	/** Update user data with `data`. (partial update)
-	 *
-	 * Data can include:
-	 *   { firstName, lastName, password, email }
-	 *
-	 * Returns { id, username, firstName, lastName, email }
-	 *
-	 * Throws NotFoundError if not found.
-	 *
+	/**
+	 * Update user data with provided fields (partial update).
+	 * @param {number} username - The username of the user to update.
+	 * @param {Object} data - Data to update: { firstName, lastName, password, email }
+	 * @returns {Object} Updated user data: { id, username, firstName, lastName, email }
+	 * @throws {NotFoundError} If user not found.
 	 */
-
-	static async update(id, data) {
+	static async update(username, data) {
+		
+		// If password is being updated, hash it
 		if (data.password) {
 			data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
 		}
@@ -182,17 +176,19 @@ class User {
 			firstName: 'first_name',
 			lastName: 'last_name',
 		});
-		const idVarIdx = '$' + (values.length + 1);
+
+		const usernameVarIndex = '$' + (values.length + 1);
 
 		const querySql = `
-      UPDATE users
-      SET ${setCols}
-      WHERE id = ${idVarIdx}
-      RETURNING id,
-          first_name AS "firstName",
-          last_name AS "lastName",
-          email`;
-		const result = await db.query(querySql, [...values, id]);
+			UPDATE users
+				 SET ${setCols}
+			 WHERE username = ${usernameVarIndex}
+	 RETURNING id,
+						 first_name AS "firstName",
+						 last_name AS "lastName",
+						 email`;
+
+		const result = await db.query(querySql, [...values, username]);
 		const user = result.rows[0];
 
 		if (!user) throw new NotFoundError(`No user: ${id}`);
@@ -200,6 +196,7 @@ class User {
 		delete user.password;
 		return user;
 	}
+
 	/** Delete given user from database; returns undefined. */
 
 	static async remove(id) {

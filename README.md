@@ -15,7 +15,7 @@
         - [ ] register
         - [X] getAll
         - [X] get
-        - [ ] update
+        - [X] update
         - [ ] remove
     - [ ] Conversation
         - [ ] create

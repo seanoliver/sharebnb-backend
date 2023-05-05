@@ -23,13 +23,18 @@ router.get('/', async function (req, res, next) {
 	return res.json({ users });
 });
 
-/** GET /[username] => { user }
- *
- * Returns { username, firstName, lastName, jobs }
- *   where jobs is { id, title, companyHandle, companyName, state }
- *
- **/
-
+/**
+ * Get data about user by username.
+ * @route GET /[username]
+ * @param {Object} req - Request with username in params.
+ * @param {Object} res - Response object.
+ * @param {Function} next - Next middleware.
+ * @returns {Object} User data:
+ *   { id, username, firstName, lastName, listings, bookings, conversations }
+ *   - listings: [{ id, name, description, price, street, city, state, zip, genre }]
+ *   - bookings: [{ id, owner_id, renter_id, listing_id, created_at }]
+ *   - conversations: [{ id, renter_id, owner_id, listing_id }]
+ */
 router.get('/:username', async function (req, res, next) {
 	const user = await User.get(req.params.username);
 	return res.json({ user });
@@ -46,6 +51,8 @@ router.get('/:username', async function (req, res, next) {
  **/
 
 router.patch('/:username', async function (req, res, next) {
+	// TODO: Add isLoggedIn middleware
+	// TODO: Add isAccountOwner middleware
 	const validator = jsonschema.validate(req.body, userUpdateSchema, {
 		required: true,
 	});
