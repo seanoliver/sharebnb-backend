@@ -121,9 +121,7 @@ class Listing {
 	 *      ownerId }, ...]
 	 */
 	static async findAll({ minPrice, maxPrice, genre } = {}) {
-		// TODO: Add schema validation for minPrice, maxPrice, genre
-		// TODO: Add validation for minPrice < maxPrice
-		// TODO: Update genres in schema validator once we have a list of genres
+		// TODO: (Nice to have) Add enum for genre in jsonschema
 		const { where, vals } = this._filterWhereBuilder({
 			minPrice,
 			maxPrice,
