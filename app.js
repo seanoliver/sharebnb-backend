@@ -65,6 +65,7 @@ app.post("/upload-image", upload.single("image"), async (req, res) => {
     const request = await createRequest(s3Client, getObjectCommand);
     const imageUrl = formatUrl(request, presigner);
 
+    //TODO: fix .replace to remove baseurl
     res.send({
       message: "Image uploaded successfully",
       imageUrl: imageUrl.replace(BUCKET_URL, ""),
