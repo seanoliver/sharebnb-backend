@@ -4,8 +4,6 @@ const { createRequest } = require("@aws-sdk/util-create-request");
 const { formatUrl } = require("@aws-sdk/util-format-url");
 const { Upload } = require("@aws-sdk/lib-storage");
 
-
-
 const express = require("express");
 const cors = require("cors");
 const multer = require('multer');
@@ -17,8 +15,10 @@ config();
 
 const app = express();
 
+const BUCKET_URL = process.env.BUCKET_BASE_URL;
 // MIDDLEWARE: CORS
 app.use(cors());
+app.use(express.json());
 app.use('/listings', listingRoutes);
 
 // AWS SDK Configuration
@@ -67,7 +67,7 @@ app.post("/upload-image", upload.single("image"), async (req, res) => {
 
     res.send({
       message: "Image uploaded successfully",
-      imageUrl: imageUrl.replace(BUCKET_BASE_URL, ""),
+      imageUrl: imageUrl.replace(BUCKET_URL, ""),
     });
   } catch (error) {
     res.status(500).send({

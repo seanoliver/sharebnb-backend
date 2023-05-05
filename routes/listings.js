@@ -31,6 +31,8 @@ router.post("/", async function (req, res, next) {
   //   throw new BadRequestError(errs);
   // }
   // req.body.userId = res.local.userId; //or whereever it is stored
+  console.log("reqTHISONE:", req);
+  console.log("reqBODYTHISONE:", req.body);
   const listing = await Listing.create(req.body);
   return res.status(201).json({ listing });
 });

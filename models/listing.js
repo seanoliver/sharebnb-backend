@@ -4,13 +4,14 @@ const db = require('../db');
 const { sqlForPartialUpdate } = require('../helpers/sql');
 const { NotFoundError } = require('../expressError');
 
-const HOSTNAME = process.env.HOSTNAME;
+const HOSTNAME = process.env.BUCKET_BASE_URL;
 
 /** Listing
  *
  */
 class Listing {
 	static async create(data) {
+		console.log("data:", data);
 		const result = await db.query(
 			`
     INSERT INTO listings (name,
@@ -23,7 +24,7 @@ class Listing {
                       genre,
                       owner_id
                       )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING
         id as listingId,
         name,
@@ -40,6 +41,7 @@ class Listing {
 				data.name,
 				data.description,
 				data.price,
+				data.street,
 				data.city,
 				data.state,
 				data.zip,
@@ -48,7 +50,7 @@ class Listing {
 			]
 		);
 		const listing = result.rows[0];
-
+			console.log("listing:", listing);
 		const newPhoto = await db.query(
 			`INSERT INTO photos (
         listing_id, photo_url
@@ -57,7 +59,7 @@ class Listing {
       RETURNING
         id as photoId
         `,
-			[listing.listingID, data.photoUrl]
+			[listing.listingid, data.imageUrl]
 		);
 		listing.photos = newPhoto.rows[0];
 		return listing;
@@ -167,13 +169,16 @@ class Listing {
 		const listing = listingRes.rows[0];
 
 		if (!listing) throw new NotFoundError(`No listing: ${id}`);
-		const listingPhoto = await db.query(
+		const result = await db.query(
 			`SELECT photo_url
         FROM photos
         WHERE listing_id = $1`,
-			[listing.id]
+			[listing.listingid]
 		);
-		listing.photoUrl = HOSTNAME + listingPhoto.rows[0];
+			const photoUrl = result.rows[0].photo_url;
+			console.log("photoUrl:", photoUrl);
+		listing.photoUrl = photoUrl;
+		console.log("listing!!!:", listing);
 		return listing;
 	}
 
