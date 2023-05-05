@@ -1,0 +1,20 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://our.company.com/listingSearch.schema.json",
+	"type": "object",
+	"properties": {
+		"minPrice": {
+			"type": "number",
+			"minimum": 0
+		},
+		"maxPrice": {
+			"type": "number",
+			"minimum": 0
+		},
+		"genre": {
+			"type": "string"
+		}
+	},
+	"additionalProperties": false,
+	"required": []
+}

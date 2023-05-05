@@ -1,12 +1,61 @@
 {
-    "name": "Listing Name",
-    "description": "Listing Description",
-    "price": "123",
-    "street": "123 Main St.",
-    "city": "Tokyo",
-    "state": "FL",
-    "zip": "12345",
-    "genre": "House",
-    "files": ""
-
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://our.company.com/listingNew.schema.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 75
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5000
+    },
+    "price": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "street": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50
+    },
+    "city": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50
+    },
+    "state": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2
+    },
+    "zip": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5
+    },
+    "genre": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 25
+    },
+    "ownerId": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "description",
+    "price",
+    "street",
+    "city",
+    "state",
+    "zip",
+    "genre",
+    "ownerId"]
 }

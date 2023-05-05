@@ -1,65 +1,69 @@
-"use strict";
+'use strict';
 
 /** Routes for Listings */
 
-const jsonschema = require("jsonschema");
-const express = require("express");
+const jsonschema = require('jsonschema');
+const express = require('express');
 
-const { BadRequestError } = require("../expressError");
-const { ensureAdmin } = require("../middleware/auth");
-const Listing = require("../models/listing");
+const { BadRequestError } = require('../expressError');
+const { ensureAdmin } = require('../middleware/auth');
+const Listing = require('../models/listing');
 
-// const listingNewSchema = require("../schemas/listingNew.json");
-// const listingUpdateSchema = require("../schemas/listingUpdate.json");
-// const listingSearchSchema = require("../schemas/listingSearch.json");
+const listingNewSchema = require('../schemas/listingNew.json');
+const listingUpdateSchema = require('../schemas/listingUpdate.json');
+const listingSearchSchema = require('../schemas/listingSearch.json');
 
 const router = new express.Router();
 
-
-/** POST / {listing} -> {listing}
- *
- * Add a new Listing
- *
+/**
+ * Add new listing.
+ * @route POST /listings/
+ * @param {Object} req - Request with new listing data.
+ * @param {Object} res - Response object.
+ * @param {Function} next - Next middleware.
+ * @returns {Object} New listing object.
+ * @throws {BadRequestError} If request body invalid.
  */
-router.post("/", async function (req, res, next) {
-  //TODO: validate:
-  // const validator = jsonschema.validate(req.body, listingNewSchema, {
-  //   required: true,
-  // });
-  // if (!validator.valid) {
-  //   const errs = validator.errors.map((e) => e.stack);
-  //   throw new BadRequestError(errs);
-  // }
-  // req.body.userId = res.local.userId; //or whereever it is stored
-  console.log("reqTHISONE:", req);
-  console.log("reqBODYTHISONE:", req.body);
-  const listing = await Listing.create(req.body);
-  return res.status(201).json({ listing });
+router.post('/', async function (req, res, next) {
+	const validator = jsonschema.validate(req.body, listingNewSchema, {
+		required: true,
+	});
+
+	if (!validator.valid) {
+		const errs = validator.errors.map(e => e.stack);
+		throw new BadRequestError(errs);
+	}
+	// req.body.userId = res.locals.userId;
+	// TODO: Populate request body with res.locals.userId once validation is
+	// enabled.
+
+	const listing = await Listing.create(req.body);
+	return res.status(201).json({ listing });
 });
 
-
-/** GET / -> [{listing}, ...]
- *
- *  Get all Listings
- *
- * Optional search query:
- *
+/**
+ * Get all listings with optional search query.
+ * @route GET /
+ * @param {Object} req - Request with query parameters.
+ * @param {Object} res - Response object.
+ * @param {Function} next - Next middleware.
+ * @returns {Array} Array of listings [{listing}, ...].
+ * @throws {BadRequestError} If query params don't match listingSearchSchema.
  */
-router.get("/", async function (req, res, next) {
-  const q = req.query;
+router.get('/', async function (req, res, next) {
+	const q = req.query;
+	const validator = jsonschema.validate(q, listingSearchSchema, {
+		required: true,
+	});
 
-  // const validator = jsonschema.validate(q, listingSearchSchema, {
-  //   required: true,
-  // });
-  // if (!validator.valid) {
-  //   const errs = validator.errors.map((e) => e.stack);
-  //   throw new BadRequestError(errs);
-  // }
+	if (!validator.valid) {
+		const errs = validator.errors.map(e => e.stack);
+		throw new BadRequestError(errs);
+	}
 
-  const jobs = await Listing.findAll(q);
-  return res.json({ jobs });
+	const listings = await Listing.findAll(q);
+	return res.json({ listings });
 });
-
 
 /** GET /[listingId] => { listing }
  *
@@ -67,20 +71,19 @@ router.get("/", async function (req, res, next) {
  *
  */
 
-router.get("/:id", async function (req, res, next) {
-  const listing = await Listing.get(req.params.id);
+router.get('/:id', async function (req, res, next) {
+	const listing = await Listing.get(req.params.id);
 
-  // const validator = jsonschema.validate(q, listingSearchSchema, {
-  //   required: true,
-  // });
-  // if (!validator.valid) {
-  //   const errs = validator.errors.map((e) => e.stack);
-  //   throw new BadRequestError(errs);
-  // }
+	// const validator = jsonschema.validate(q, listingSearchSchema, {
+	//   required: true,
+	// });
+	// if (!validator.valid) {
+	//   const errs = validator.errors.map((e) => e.stack);
+	//   throw new BadRequestError(errs);
+	// }
 
-  return res.json({ listing });
+	return res.json({ listing });
 });
-
 
 /** PATCH /[listingId]  { fld1, fld2, ... } => { listing }
  *
@@ -91,19 +94,18 @@ router.get("/:id", async function (req, res, next) {
  * Authorization required: admin
  */
 
-router.patch("/:id", async function (req, res, next) {
-  const validator = jsonschema.validate(req.body, listingUpdateSchema, {
-    required: true,
-  });
-  if (!validator.valid) {
-    const errs = validator.errors.map((e) => e.stack);
-    throw new BadRequestError(errs);
-  }
+router.patch('/:id', async function (req, res, next) {
+	const validator = jsonschema.validate(req.body, listingUpdateSchema, {
+		required: true,
+	});
+	if (!validator.valid) {
+		const errs = validator.errors.map(e => e.stack);
+		throw new BadRequestError(errs);
+	}
 
-  const job = await Listing.update(req.params.id, req.body);
-  return res.json({ job });
+	const job = await Listing.update(req.params.id, req.body);
+	return res.json({ job });
 });
-
 
 /** DELETE /:id  =>  { deleted: id }
  *
@@ -111,9 +113,9 @@ router.patch("/:id", async function (req, res, next) {
  *
  */
 
-router.delete("/:id", async function (req, res, next) {
-  await Listing.remove(req.params.id);
-  return res.json({ deleted: +req.params.id });
+router.delete('/:id', async function (req, res, next) {
+	await Listing.remove(req.params.id);
+	return res.json({ deleted: +req.params.id });
 });
 
 module.exports = router;

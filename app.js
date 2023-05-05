@@ -9,17 +9,19 @@ const cors = require("cors");
 const multer = require('multer');
 const { config } = require('dotenv');
 const listingRoutes = require('./routes/listings');
+const userRoutes = require('./routes/users');
 
 // Bringing in dotenv variables
 config();
 
 const app = express();
 
-const BUCKET_URL = process.env.BUCKET_BASE_URL;
+
 // MIDDLEWARE: CORS
 app.use(cors());
 app.use(express.json());
 app.use('/listings', listingRoutes);
+app.use('/users', userRoutes);
 
 // AWS SDK Configuration
 const s3Client = new S3Client({
@@ -68,7 +70,7 @@ app.post("/upload-image", upload.single("image"), async (req, res) => {
     //TODO: fix .replace to remove baseurl
     res.send({
       message: "Image uploaded successfully",
-      imageUrl: imageUrl.replace(BUCKET_URL, ""),
+      imageUrl: imageUrl.replace(process.env.BUCKET_BASE_URL, ""),
     });
   } catch (error) {
     res.status(500).send({

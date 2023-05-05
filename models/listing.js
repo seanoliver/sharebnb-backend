@@ -6,24 +6,33 @@ const { NotFoundError } = require('../expressError');
 
 const HOSTNAME = process.env.BUCKET_BASE_URL;
 
-/** Listing
- *
+/**
+ * Represents a listing.
  */
 class Listing {
+	/**
+	 * Create new listing.
+	 * @route POST /listings
+	 * @param {Object} data - Data for new listing:
+	 *   { name, description, price, street, city, state, zip, genre, ownerId,
+	 *     imageUrl (optional) }
+	 * @returns {Object} Created listing:
+	 *   { listingId, name, description, price, street, city, state, zip, genre,
+	 *     ownerId, photos (optional) }
+	 */
 	static async create(data) {
-		console.log("data:", data);
+		console.log('data:', data);
 		const result = await db.query(
 			`
     INSERT INTO listings (name,
-                      description,
-                      price,
-                      street,
-                      city,
-                      state,
-                      zip,
-                      genre,
-                      owner_id
-                      )
+                          description,
+                          price,
+                          street,
+                          city,
+                          state,
+                          zip,
+                          genre,
+                          owner_id)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING
         id as listingId,
@@ -46,39 +55,39 @@ class Listing {
 				data.state,
 				data.zip,
 				data.genre,
-				data.userId,
+				data.ownerId,
 			]
 		);
+
 		const listing = result.rows[0];
-			console.log("listing:", listing);
-		const newPhoto = await db.query(
-			`INSERT INTO photos (
-        listing_id, photo_url
-      )
-      VALUES($1, $2)
-      RETURNING
-        id as photoId
-        `,
-			[listing.listingid, data.imageUrl]
-		);
-		listing.photos = newPhoto.rows[0];
+
+		// Check if there is an image url
+		// If so, insert into photos table
+		// TODO: FYI to Huse that we are making image optional
+		if (data.imageUrl) {
+			const resultPhoto = await db.query(
+				`INSERT INTO photos (
+          listing_id, photo_url
+        )
+        VALUES($1, $2)
+        RETURNING
+          id as photoId
+          `,
+				[listing.listingid, data.imageUrl]
+			);
+
+			listing.photos = resultPhoto.rows[0];
+		}
+
 		return listing;
 	}
 
-	/** Create WHERE clause for filters, to be used by functions that query
-	 * with filters.
-	 *
-	 * searchFilters (all optional):
-	 * - minPrice
-	 * - maxPrice
-	 * - genre
-	 *
-	 * Returns {
-	 *  where: "WHERE minPrice >= $1 AND name ILIKE $2",
-	 *  vals: [10000, '%pool%']
-	 * }
+	/**
+	 * Create WHERE clause for filters used by query functions.
+	 * @param {Object} searchFilters - Filters (optional): minPrice, maxPrice, genre.
+	 * @returns {Object} WHERE clause and values:
+	 *   { where: "WHERE minPrice >= $1 AND name ILIKE $2", vals: [10000, '%pool%'] }
 	 */
-
 	static _filterWhereBuilder({ minPrice, maxPrice, genre }) {
 		let whereParts = [];
 		let vals = [];
@@ -104,17 +113,17 @@ class Listing {
 		return { where, vals };
 	}
 
-	/** Find all listings (optional filter on searchFilters).
-	 *
-	 * searchFilters (all optional):
-	 * - minPrice
-	 * - maxPrice
-	 * - genre
-	 *
-	 * Returns [{ listingId, name, description, price, street, city, state, zip, genre, ownerId }, ...]
-	 * */
-
+	/**
+	 * Find all listings with optional filters.
+	 * @param {Object} searchFilters - Filters (optional): minPrice, maxPrice, genre.
+	 * @returns {Array} Listings:
+	 *   [{ listingId, name, description, price, street, city, state, zip, genre,
+	 *      ownerId }, ...]
+	 */
 	static async findAll({ minPrice, maxPrice, genre } = {}) {
+		// TODO: Add schema validation for minPrice, maxPrice, genre
+		// TODO: Add validation for minPrice < maxPrice
+		// TODO: Update genres in schema validator once we have a list of genres
 		const { where, vals } = this._filterWhereBuilder({
 			minPrice,
 			maxPrice,
@@ -175,10 +184,10 @@ class Listing {
         WHERE listing_id = $1`,
 			[listing.listingid]
 		);
-			const photoUrl = result.rows[0].photo_url;
-			console.log("photoUrl:", photoUrl);
+		const photoUrl = result.rows[0].photo_url;
+		console.log('photoUrl:', photoUrl);
 		listing.photoUrl = photoUrl;
-		console.log("listing!!!:", listing);
+		console.log('listing!!!:', listing);
 		return listing;
 	}
 
@@ -238,6 +247,5 @@ class Listing {
 		if (!listing) throw new NotFoundError(`No listing: ${id}`);
 	}
 }
-
 
 module.exports = Listing;

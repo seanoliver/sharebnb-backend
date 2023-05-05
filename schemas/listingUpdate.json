@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://our.company.com/listingUpdate.schema.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 75
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5000
+    },
+    "price": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1000000
+    },
+    "street": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50
+    },
+    "city": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50
+    },
+    "state": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2
+    },
+    "zip": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5
+    },
+    "genre": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50
+    }
+  },
+  "additionalProperties": false,
+  "required": []
+}
