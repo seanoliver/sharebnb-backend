@@ -166,7 +166,6 @@ class User {
 	 * @throws {NotFoundError} If user not found.
 	 */
 	static async update(username, data) {
-		
 		// If password is being updated, hash it
 		if (data.password) {
 			data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
@@ -191,26 +190,28 @@ class User {
 		const result = await db.query(querySql, [...values, username]);
 		const user = result.rows[0];
 
-		if (!user) throw new NotFoundError(`No user: ${id}`);
+		if (!user) throw new NotFoundError(`No user: ${username}`);
 
 		delete user.password;
 		return user;
 	}
 
-	/** Delete given user from database; returns undefined. */
-
-	static async remove(id) {
-		let result = await db.query(
-			`
-        DELETE
-        FROM users
-        WHERE id = $1
-        RETURNING id`,
-			[id]
+	/**
+	 * Delete user by username; returns undefined.
+	 * @param {string} username - The username of the user to delete.
+	 * @throws {NotFoundError} If user not found.
+	 */
+	static async remove(username) {
+		const result = await db.query(
+			`DELETE
+         FROM users
+        WHERE username = $1
+    RETURNING username`,
+			[username]
 		);
 		const user = result.rows[0];
 
-		if (!user) throw new NotFoundError(`No user: ${id}`);
+		if (!user) throw new NotFoundError(`No user: ${username}`);
 	}
 }
 
