@@ -16,7 +16,7 @@
         - [X] getAll
         - [X] get
         - [X] update
-        - [ ] remove
+        - [X] remove
     - [ ] Conversation
         - [ ] create
         - [ ] sendMessage
@@ -38,17 +38,28 @@
         - [X] GET /:id
         - [X] PATCH /:id
         - [X] DELETE /:id
+    - [X] /upload
+        - [X] POST /image
     - [ ] /auth
         - [ ] POST /register
         - [ ] POST /login
-    - [ ] /users
+    - [X] /users
         - [X] GET /
         - [X] GET /:username
         - [X] PATCH /:username
-        - [ ] DELETE /:username
+        - [X] DELETE /:username
     - [ ] /conversations
         - [ ] GET /
         - [ ] GET /? (minPrice, maxPrice, genre)
         - [ ] GET /:id
         - [ ] PATCH /:id
         - [ ] DELETE /:id
+
+## Breaking Changes
+
+- Upload images route is now POST /upload/image
+- Start backend server with `nodemon server.js` instead of `nodemon app.js`
+
+## Outstanding
+
+- [ ] Upload image base URL
