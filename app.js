@@ -107,7 +107,4 @@ app.use(function (err, req, res, next) {
 	});
 });
 
-// Start the Express server
-app.listen(3001, () => {
-	console.log('Express server is running on port 3001');
-});
+module.exports = app;
