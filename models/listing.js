@@ -152,7 +152,20 @@ class Listing {
 			vals
 		);
 
-		return listingRes.rows;
+		const listings =  listingRes.rows;
+		// listings.map(async (listing) => {
+
+		// const photoResult = await db.query(
+		// 	`SELECT photo_url AS photoUrl
+    //    FROM photos
+    //   WHERE listing_id = $1`,
+		// 	[listing.listingId]
+		// );
+		// const photo = photoResult.rows[0];
+		// if (photo) listing.photoUrl = photo.photoUrl;
+		// });
+		return listings;
+
 	}
 
 	/**
