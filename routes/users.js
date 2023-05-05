@@ -7,7 +7,8 @@ const { BadRequestError } = require('../expressError');
 const User = require('../models/user');
 const userUpdateSchema = require('../schemas/userUpdate.json');
 
-const router = express.Router();
+// Initialize router
+const router = new express.Router();
 
 /**
  * Get list of all users.
@@ -40,22 +41,22 @@ router.get('/:username', async function (req, res, next) {
 	return res.json({ user });
 });
 
-/** PATCH /[username] { user } => { user }
- *
- * Data can include:
- *   { firstName, lastName, password, email }
- *
- * Returns { username, firstName, lastName, email, isAdmin }
- *
- * Authorization required: same-user-as-:username
- **/
-
+/**
+ * Update user data by username; returns updated user.
+ * @route PATCH /[username]
+ * @param {Object} req - Request with username in params and data in body.
+ * @param {Object} res - Response object.
+ * @param {Function} next - Next middleware.
+ * @returns {Object} Updated user: { username, firstName, lastName, email, isAdmin }
+ * @throws {AuthorizationError} If not same user as :username.
+ */
 router.patch('/:username', async function (req, res, next) {
 	// TODO: Add isLoggedIn middleware
 	// TODO: Add isAccountOwner middleware
 	const validator = jsonschema.validate(req.body, userUpdateSchema, {
 		required: true,
 	});
+
 	if (!validator.valid) {
 		const errs = validator.errors.map(e => e.stack);
 		throw new BadRequestError(errs);
@@ -65,12 +66,18 @@ router.patch('/:username', async function (req, res, next) {
 	return res.json({ user });
 });
 
-/** DELETE /[username]  =>  { deleted: username }
- *
- * Authorization required: same-user-as-:username
- **/
-
+/**
+ * Delete user by username; returns { deleted: username }.
+ * @route DELETE /[username]
+ * @param {Object} req - Request with username in params.
+ * @param {Object} res - Response object.
+ * @param {Function} next - Next middleware.
+ * @returns {Object} Deleted user: { deleted: username }
+ * @throws {AuthorizationError} If not same user as :username.
+ */
 router.delete('/:username', async function (req, res, next) {
+	// TODO: Add isLoggedIn middleware
+	// TODO: Add isAccountOwner middleware
 	await User.remove(req.params.username);
 	return res.json({ deleted: req.params.username });
 });
