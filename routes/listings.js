@@ -13,6 +13,7 @@ const listingNewSchema = require('../schemas/listingNew.json');
 const listingUpdateSchema = require('../schemas/listingUpdate.json');
 const listingSearchSchema = require('../schemas/listingSearch.json');
 
+// Initialize router
 const router = new express.Router();
 
 /**
