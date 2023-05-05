@@ -13,8 +13,8 @@
     - [ ] User
         - [ ] authenticate
         - [ ] register
-        - [ ] findAll
-        - [ ] get
+        - [X] getAll
+        - [X] get
         - [ ] update
         - [ ] remove
     - [ ] Conversation
@@ -42,7 +42,7 @@
         - [ ] POST /register
         - [ ] POST /login
     - [ ] /users
-        - [ ] GET /
+        - [X] GET /
         - [ ] GET /:username
         - [ ] PATCH /:username
         - [ ] DELETE /:username

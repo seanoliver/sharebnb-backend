@@ -1,16 +1,15 @@
 'use strict';
 
-const db = require("../db");
-const bcrypt = require("bcrypt");
-const { sqlForPartialUpdate } = require("../helpers/sql");
+const db = require('../db');
+const bcrypt = require('bcrypt');
+const { sqlForPartialUpdate } = require('../helpers/sql');
 const {
-  NotFoundError,
-  BadRequestError,
-  UnauthorizedError,
-} = require("../expressError");
+	NotFoundError,
+	BadRequestError,
+	UnauthorizedError,
+} = require('../expressError');
 
-const { BCRYPT_WORK_FACTOR } = require("../config.js");
-
+const { BCRYPT_WORK_FACTOR } = require('../config.js');
 
 class User {
 	/** authenticate user with username, password.
@@ -113,65 +112,54 @@ class User {
 		return result.rows;
 	}
 
-	/** Given a username, return data about user.
-	 *
-	 * Returns { id, username, firstName, lastName, listings, bookings, conversations }
-	 *   where listings is [{ id, name, description, price, street, city, state, zip, genre }]
-	 *   where reservations is [{ id, owner_id, renter_id, listing_id, created_at }]
-	 *   where conversations is [{ id, renter_id, owner_id, listing_id }]
-	 *
-	 * Throws NotFoundError if user not found.
-	 **/
-
-	static async get({ id }) {
-		const result = await db.query(
-			` SELECT id,
-               username,
-               first_name as firstName,
-               last_name as lastName,
-               email
-          FROM users
-         WHERE id = $1`,
-			[id]
+	/**
+	 * Get data about user by username.
+	 * @param {string} username - The username of the user to retrieve.
+	 * @returns {Object} User data:
+	 *   { id, username, firstName, lastName, listings, bookings, conversations }
+	 *   - listings: [{ id, name, description, price, street, city, state, zip, genre }]
+	 *   - bookings: [{ id, owner_id, renter_id, listing_id, created_at }]
+	 *   - conversations: [{ id, renter_id, owner_id, listing_id }]
+	 * @throws {NotFoundError} If user not found.
+	 */
+	static async get(username) {
+		const userResult = await db.query(
+			`SELECT id, username, first_name AS firstName, last_name AS lastName, email
+       FROM users
+      WHERE username = $1`,
+			[username]
 		);
-		const user = result.rows[0];
+		const user = userResult.rows[0];
+		if (!user) throw new NotFoundError(`User not found: ${username}`);
 
-		if (!user) throw new NotFoundError(`User not found: ${id}`);
-
-		const listings = await db.query(
-			`
-        SELECT id, name, description, price, street, city, state, zip, genre
-        FROM listings
+		const listingsResult = await db.query(
+			`SELECT id, name, description, price, street, city, state, zip, genre
+         FROM listings
         WHERE owner_id = $1
-        ORDER BY id`,
-			[id]
+     ORDER BY id`,
+			[user.id]
 		);
+		user.listings = listingsResult.rows;
 
-		user.listings = listings.rows;
-
-		const reservations = await db.query(
-			`
-        SELECT id, owner_id, renter_id, listing_id, created_at
-        FROM bookings
+		const bookingsResult = await db.query(
+			`SELECT id, owner_id, renter_id, listing_id, created_at
+         FROM bookings
         WHERE renter_id = $1
-        ORDER BY id`,
-			[id]
+     ORDER BY id`,
+			[user.id]
 		);
+		user.bookings = bookingsResult.rows;
 
-		user.reservations = reservations.rows;
-
-		const conversations = await db.query(
-			`
-        SELECT id, renter_id, owner_id, listing_id
-        FROM conversations
-        WHERE owner_id = $1 OR renter_id = $1
-        ORDER BY id`,
-			[id]
+		const conversationsResult = await db.query(
+			`SELECT id, renter_id, owner_id, listing_id
+		  	 FROM conversations
+				WHERE owner_id = $1 OR renter_id = $1
+		 ORDER BY id`,
+			[user.id]
 		);
+		user.conversations = conversationsResult.rows;
 
-		user.conversations = conversations.rows;
-
-		return company;
+		return user;
 	}
 
 	/** Update user data with `data`. (partial update)
