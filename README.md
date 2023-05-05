@@ -3,13 +3,25 @@
 ## Checklist
 
 - [ ] Models
-    - [ ] Listing
+    - [X] Listing
         - [X] create
         - [X] findAll
             - [X] _filterWhereBuilder
         - [X] get
         - [X] update
         - [X] remove
+    - [ ] User
+        - [ ] authenticate
+        - [ ] register
+        - [ ] findAll
+        - [ ] get
+        - [ ] update
+        - [ ] remove
+    - [ ] Conversation
+        - [ ] create
+        - [ ] sendMessage
+        - [ ] readMessage
+        - [ ] delete
 
 - [ ] Middleware
     - [ ] auth
@@ -35,15 +47,6 @@
         - [ ] PATCH /:username
         - [ ] DELETE /:username
     - [ ] /conversations
-        - [ ] GET /
-        - [ ] GET /? (minPrice, maxPrice, genre)
-        - [ ] GET /:id
-        - [ ] PATCH /:id
-        - [ ] DELETE /:id
-
-- [ ] Routes (yes auth)
-    - [ ] /listings
-        - [ ] POST /
         - [ ] GET /
         - [ ] GET /? (minPrice, maxPrice, genre)
         - [ ] GET /:id

@@ -123,7 +123,7 @@ class User {
 	 * Throws NotFoundError if user not found.
 	 **/
 
-	static async getUser({ id }) {
+	static async get({ id }) {
 		const result = await db.query(
 			` SELECT id,
                username,
