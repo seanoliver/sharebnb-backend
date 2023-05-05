@@ -97,7 +97,7 @@ class User {
 	 * Returns [{ id, username, first_name, last_name, email, is_admin }, ...]
 	 **/
 
-	static async findAll() {
+	static async getAll() {
 		const result = await db.query(
 			`
     SELECT id,

@@ -1,7 +1,6 @@
 'use strict';
 
 /** Routes for Users */
-const bcrypt = require('bcrypt');
 const jsonschema = require('jsonschema');
 const express = require('express');
 const { BadRequestError } = require('../expressError');
@@ -10,13 +9,16 @@ const userUpdateSchema = require('../schemas/userUpdate.json');
 
 const router = express.Router();
 
-/** GET / => { users: [ {username, firstName, lastName, email }, ... ] }
- *
- * Returns list of all users.
- *
- **/
-
+/**
+ * Get list of all users.
+ * @route GET /
+ * @param {Object} req - Request object.
+ * @param {Object} res - Response object.
+ * @param {Function} next - Next middleware.
+ * @returns {Object} Users: { users: [{username, firstName, lastName, email}, ...] }
+ */
 router.get('/', async function (req, res, next) {
+	// TODO: Add isLoggedIn middleware
 	const users = await User.getAll();
 	return res.json({ users });
 });
@@ -65,7 +67,5 @@ router.delete('/:username', async function (req, res, next) {
 	await User.remove(req.params.username);
 	return res.json({ deleted: req.params.username });
 });
-
-
 
 module.exports = router;
