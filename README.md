@@ -40,9 +40,9 @@
         - [X] DELETE /:id
     - [X] /upload
         - [X] POST /image
-    - [ ] /auth
-        - [ ] POST /register
-        - [ ] POST /login
+    - [X] /auth
+        - [X] POST /register
+        - [X] POST /login
     - [X] /users
         - [X] GET /
         - [X] GET /:username

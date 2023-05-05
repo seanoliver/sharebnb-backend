@@ -12,31 +12,31 @@ const {
 const { BCRYPT_WORK_FACTOR } = require('../config.js');
 
 class User {
-	/** authenticate user with username, password.
-	 *
-	 * Returns { id, username, first_name, last_name, email}
-	 *
-	 * Throws UnauthorizedError is user not found or wrong password.
-	 **/
+	/**
+	 * Authenticate user with provided username and password.
+	 * @param {string} username - Username for authentication.
+	 * @param {string} password - Password for authentication.
+	 * @returns {Object} Authenticated user data: { id, username, firstName, lastName, email }
+	 * @throws {UnauthorizedError} If user not found or password is incorrect.
+	 */
 	static async authenticate(username, password) {
-		// try to find the user first
+		// Try to find the user first
 		const result = await db.query(
-			`
-        SELECT id,
-               username,
-               password,
-               first_name AS "firstName",
-               last_name  AS "lastName",
-               email
-        FROM users
-        WHERE username = $1`,
+			`SELECT id,
+							username,
+							password,
+							first_name AS "firstName",
+							last_name  AS "lastName",
+							email
+				 FROM users
+				WHERE username = $1`,
 			[username]
 		);
 
 		const user = result.rows[0];
 
 		if (user) {
-			// compare hashed password to a new hash from password
+			// Compare hashed password to a new hash from password
 			const isValid = await bcrypt.compare(password, user.password);
 			if (isValid === true) {
 				delete user.password;
@@ -47,18 +47,22 @@ class User {
 		throw new UnauthorizedError('Invalid username/password');
 	}
 
-	/** Register user with data.
-	 *
-	 * Returns { username, firstName, lastName, email }
-	 *
-	 * Throws BadRequestError on duplicates.
-	 **/
+	/**
+	 * Register a new user with provided data.
+	 * @param {Object} data - User data for registration.
+	 * @param {string} data.username - Username.
+	 * @param {string} data.password - Password.
+	 * @param {string} data.firstName - First name.
+	 * @param {string} data.lastName - Last name.
+	 * @param {string} data.email - Email.
+	 * @returns {Object} Registered user data: { username, firstName, lastName, email }
+	 * @throws {BadRequestError} If username is a duplicate.
+	 */
 	static async register({ username, password, firstName, lastName, email }) {
 		const duplicateCheck = await db.query(
-			`
-      SELECT username
-      FROM users
-      WHERE username = $1`,
+			`SELECT username
+     		 FROM users
+     		WHERE username = $1`,
 			[username]
 		);
 
@@ -69,20 +73,11 @@ class User {
 		const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
 		const result = await db.query(
-			`
-              INSERT INTO users
-              (username,
-               password,
-               first_name,
-               last_name,
-               email)
-              VALUES ($1, $2, $3, $4, $5)
-              RETURNING
-                  id,
-                  username,
-                  first_name AS "firstName",
-                  last_name AS "lastName",
-                  email`,
+			`INSERT INTO users
+     							 (username, password, first_name, last_name, email)
+     				VALUES ($1, $2, $3, $4, $5)
+     		 RETURNING id, username, first_name AS "firstName",
+				           last_name AS "lastName", email`,
 			[username, hashedPassword, firstName, lastName, email]
 		);
 
