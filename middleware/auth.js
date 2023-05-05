@@ -59,15 +59,6 @@ function isCorrectUser(req, res, next) {
   }
 }
 
-
-/**
- * Middleware to ensure current user is the owner of the listing.
- */
-function isListingOwner(req, res, next) {
-  try {
-    const user = res.locals.user;
-
-
 /**
  * Middleware to confirm user is owner of listing
  */
@@ -77,12 +68,8 @@ function ensureListingOwner(req, res, next) {
 	throw new UnauthorizedError();
 }
 
-
-
 module.exports = {
 	authenticateJWT,
 	isLoggedIn,
-  isCorrectUser,
-	// ensureAdmin,
-	// ensureCorrectUserOrAdmin,
-};
+  isCorrectUser
+}
