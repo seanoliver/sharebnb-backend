@@ -10,9 +10,9 @@
         - [X] get
         - [X] update
         - [X] remove
-    - [ ] User
-        - [ ] authenticate
-        - [ ] register
+    - [X] User
+        - [X] authenticate
+        - [X] register
         - [X] getAll
         - [X] get
         - [X] update
@@ -25,10 +25,11 @@
 
 - [ ] Middleware
     - [ ] auth
-        - [ ] isLoggedIn
-        - [ ] isListingOwner
-        - [ ] isAccountOwner
-        - [ ] isInConversation
+        - [X] authenticateJWT
+        - [X] isLoggedIn
+        - [ ] isListingOwner (not sure if this is middleware)
+        - [X] isCorrectUser
+        - [ ] isInConversation (not sure if this is middleware)
 
 - [ ] Routes (no auth)
     - [X] /listings
@@ -59,7 +60,11 @@
 
 - Upload images route is now POST /upload/image
 - Start backend server with `nodemon server.js` instead of `nodemon app.js`
+- Image upload is technically optional
 
 ## Outstanding
 
-- [ ] Upload image base URL
+- [ ] Upload image still adds full AWS URL to database
+- [ ] Need to implement conversation routes / functionality
+- [ ] Add checks for correct listing owner (not sure if this is middleware)
+- [ ] Add checks for in conversation (not sure if this is middleware)

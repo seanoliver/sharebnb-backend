@@ -21,7 +21,15 @@ class Listing {
 	 *     ownerId, photos (optional) }
 	 */
 	static async create(data) {
-		console.log('data:', data);
+		const ownerResult = await db.query(
+			`SELECT id
+				 FROM users
+				WHERE username = $1`,
+			[data.ownerUsername]
+		);
+
+		const ownerId = ownerResult.rows[0].id;
+
 		const result = await db.query(
 			`
     INSERT INTO listings (name,
@@ -55,7 +63,7 @@ class Listing {
 				data.state,
 				data.zip,
 				data.genre,
-				data.ownerId,
+				ownerId,
 			]
 		);
 
@@ -63,7 +71,6 @@ class Listing {
 
 		// Check if there is an image url
 		// If so, insert into photos table
-		// TODO: FYI to Huse that we are making image optional
 		if (data.imageUrl) {
 			const resultPhoto = await db.query(
 				`INSERT INTO photos (

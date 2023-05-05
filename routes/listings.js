@@ -6,7 +6,7 @@ const jsonschema = require('jsonschema');
 const express = require('express');
 
 const { BadRequestError, NotFoundError } = require('../expressError');
-const { ensureAdmin } = require('../middleware/auth');
+const { isLoggedIn } = require('../middleware/auth');
 const Listing = require('../models/listing');
 
 const listingNewSchema = require('../schemas/listingNew.json');
@@ -25,7 +25,7 @@ const router = new express.Router();
  * @returns {Object} New listing object.
  * @throws {BadRequestError} If request body invalid.
  */
-router.post('/', async function (req, res, next) {
+router.post('/', isLoggedIn, async function (req, res, next) {
 	const validator = jsonschema.validate(req.body, listingNewSchema, {
 		required: true,
 	});
@@ -34,9 +34,8 @@ router.post('/', async function (req, res, next) {
 		const errs = validator.errors.map(e => e.stack);
 		throw new BadRequestError(errs);
 	}
-	// req.body.userId = res.locals.userId;
-	// TODO: Populate request body with res.locals.userId once validation is
-	// enabled.
+	console.log('res.locals.user', res.locals.user);
+	req.body.ownerUsername = res.locals.user.username;
 
 	const listing = await Listing.create(req.body);
 	return res.status(201).json({ listing });
