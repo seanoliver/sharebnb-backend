@@ -43,8 +43,8 @@
         - [ ] POST /login
     - [ ] /users
         - [X] GET /
-        - [ ] GET /:username
-        - [ ] PATCH /:username
+        - [X] GET /:username
+        - [X] PATCH /:username
         - [ ] DELETE /:username
     - [ ] /conversations
         - [ ] GET /
