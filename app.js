@@ -6,7 +6,7 @@ const cors = require('cors');
 const { config } = require('dotenv');
 const { NotFoundError } = require('./expressError');
 
-// Importing middleware
+// Importing auth middleware
 const { authenticateJWT } = require('./middleware/auth');
 
 // Importing routes
