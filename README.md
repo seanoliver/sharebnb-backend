@@ -73,7 +73,7 @@
 
 ## Deployment
 
-- [ ] Complete ElephantSQL setup
+- [X] Complete ElephantSQL setup
 - [ ] Resolve issue with Render
 - [ ] Link ElephantSQL to Render and push seed data
 - [ ] Link AWS S3 to Render
