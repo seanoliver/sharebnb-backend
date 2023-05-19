@@ -27,6 +27,14 @@ app.use(express.json());
 // MIDDLEWARE: Authenticate JWT
 app.use(authenticateJWT);
 
+// MIDDLEWARE: Root route
+app.get('/', (req, res) => {
+  res.json({ message: "Welcome to the Sharebnb backend API." });
+});
+
+// MIDDLEWARE: Ignore favicon requests
+app.get('/favicon.ico', (req, res) => res.sendStatus(204));
+
 // MIDDLEWARE: Routes
 app.use('/auth', authRoutes);
 app.use('/upload', uploadRoutes);
