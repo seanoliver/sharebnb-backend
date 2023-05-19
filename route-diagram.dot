@@ -1,0 +1,57 @@
+digraph G {
+    splines="spline"
+    rankdir="LR"
+
+    graph [bgcolor=black, fontcolor=white, color=white, fontname="Helvetica"];
+    node [shape=record, fontname="Helvetica", color=white, fontcolor=white];
+    edge [color=white, fontcolor=white, fontname="Helvetica"];
+
+    subgraph cluster_2 {
+        rank=same;
+        label="Routes"
+        node [label="POST /listings/"]; newListing
+        node [label="GET /listings/"]; getAllListings
+        node [label="GET /listings/:id"]; getListingById
+        node [label="DELETE /listings/:id"]; deleteListing
+        node [label="GET /users/"]; getAllUsers
+        node [label="GET /users/:username"]; getUserByUsername
+        node [label="PATCH /users/:username"]; updateUser
+        node [label="DELETE /users/:username"]; deleteUser
+        node [label="POST /upload/"]; uploadImage
+        node [label="POST /listings/:id"]; updateListing
+    }
+
+    subgraph cluster_3 {
+        rank=same;
+        label="Auth Routes"
+        node [label="POST /auth/login"]; login
+        node [label="POST /auth/register"]; register
+    }
+
+    listings -> isLoggedin -> isListingOwner -> {newListing updateListing deleteListing}
+    users -> isLoggedin -> isCorrectUser -> {updateUser deleteUser}
+
+    Routes ->  {auth conversations listings upload users}
+
+    subgraph cluster_0 {
+        label="Middleware"
+        authenticateJWT
+        isLoggedin
+        isCorrectUser
+        isListingOwner
+    }
+
+    subgraph cluster_1 {
+        label="Endpoints"
+        auth [label="/auth"]
+        conversations [label="/conversations"]
+        listings [label="/listings"]
+        upload [label="/upload"]
+        users [label="/users"]
+    }
+
+    auth -> {login register}
+    listings -> {getAllListings getListingById}
+    upload -> isLoggedin -> uploadImage [style=dashed]
+    users -> {getAllUsers getUserByUsername}
+}
