@@ -51,20 +51,24 @@ router.get('/:username', isLoggedIn, async function (req, res, next) {
  * @throws {AuthorizationError} If not same user as :username.
  * @throws {BadRequestError} If request body fails validation.
  */
-router.patch('/:username', isLoggedIn, isCorrectUser, async (req, res, next) => {
-  const validator = jsonschema.validate(req.body, userUpdateSchema, {
-    required: true,
-  });
+router.patch(
+	'/:username',
+	isLoggedIn,
+	isCorrectUser,
+	async (req, res, next) => {
+		const validator = jsonschema.validate(req.body, userUpdateSchema, {
+			required: true,
+		});
 
-  if (!validator.valid) {
-    const errs = validator.errors.map((e) => e.stack);
-    throw new BadRequestError(errs);
-  }
+		if (!validator.valid) {
+			const errs = validator.errors.map(e => e.stack);
+			throw new BadRequestError(errs);
+		}
 
-  const user = await User.update(req.params.username, req.body);
-  return res.json({ user });
-});
-
+		const user = await User.update(req.params.username, req.body);
+		return res.json({ user });
+	}
+);
 
 /**
  * Delete user by username; returns { deleted: username }.
