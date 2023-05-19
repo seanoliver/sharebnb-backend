@@ -8,8 +8,10 @@ const {
 	BadRequestError,
 	UnauthorizedError,
 } = require('../expressError');
-
+//to get photoUrls on each listings for currentUser:
+const Listing = require('./listing');
 const { BCRYPT_WORK_FACTOR } = require('../config.js');
+
 
 class User {
 	/**
@@ -131,6 +133,14 @@ class User {
 			[user.id]
 		);
 		user.listings = listingsResult.rows;
+
+			/** quick hack to attach photoUrls: */
+
+			// const listingsWithPhotos = listingsResult.rows.map(async (listing) => {
+			// 	const withPhotoUrl = await Listing.get(listing.id);
+			// 	return withPhotoUrl;
+			// });
+			// user.listings = await Promise.allSettled(listingsWithPhotos);
 
 		const bookingsResult = await db.query(
 			`SELECT id, owner_id, renter_id, listing_id, created_at
