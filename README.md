@@ -56,7 +56,7 @@
         - [ ] PATCH /:id
         - [ ] DELETE /:id
 
-![Route Diagram](./route-diagram.png)
+![Route Diagram](./routeDiagram.svg)
 
 ## Breaking Changes
 
