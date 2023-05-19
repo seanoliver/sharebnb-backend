@@ -56,6 +56,8 @@
         - [ ] PATCH /:id
         - [ ] DELETE /:id
 
+![Route Diagram](./route-diagram.png)
+
 ## Breaking Changes
 
 - Upload images route is now POST /upload/image
@@ -68,3 +70,10 @@
 - [ ] Need to implement conversation routes / functionality
 - [ ] Add checks for correct listing owner (not sure if this is middleware)
 - [ ] Add checks for in conversation (not sure if this is middleware)
+
+## Deployment
+
+- [ ] Complete ElephantSQL setup
+- [ ] Resolve issue with Render
+- [ ] Link ElephantSQL to Render and push seed data
+- [ ] Link AWS S3 to Render

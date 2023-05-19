@@ -1,0 +1,291 @@
+<?xml version="1.0" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="765pt" height="670pt" viewBox="0.00 0.00 764.67 670.00">
+<g id="graph0" class="graph" transform="translate(21.83976580032175,591.1404643253431) scale(0.8654806598052551)" data-name="G">
+
+<polygon fill="black" stroke="none" points="-4,4 -4,-666 760.67,-666 760.67,4 -4,4"/>
+<g id="clust1" class="cluster" data-name="cluster_2">
+
+<polygon fill="black" stroke="white" points="550.16,-81 550.16,-654 748.67,-654 748.67,-81 550.16,-81"/>
+<text text-anchor="middle" x="649.41" y="-637.4" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">Routes</text>
+</g>
+<g id="clust2" class="cluster" data-name="cluster_3">
+
+<polygon fill="black" stroke="white" points="230.63,-8 230.63,-141 386.34,-141 386.34,-8 230.63,-8"/>
+<text text-anchor="middle" x="308.49" y="-124.4" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">Auth Routes</text>
+</g>
+<g id="clust6" class="cluster" data-name="cluster_0">
+
+<polygon fill="black" stroke="white" points="239.96,-356 239.96,-489 530.16,-489 530.16,-356 239.96,-356"/>
+<text text-anchor="middle" x="385.06" y="-472.4" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">Middleware</text>
+</g>
+<g id="clust7" class="cluster" data-name="cluster_1">
+
+<polygon fill="black" stroke="white" points="88.36,-63 88.36,-361 210.63,-361 210.63,-63 88.36,-63"/>
+<text text-anchor="middle" x="149.49" y="-344.4" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">Endpoints</text>
+</g>
+<!-- newListing -->
+<g id="node1" class="node" pointer-events="visible" data-name="newListing">
+
+<polygon fill="none" stroke="white" points="595.12,-420 595.12,-456 703.7,-456 703.7,-420 595.12,-420"/>
+<text text-anchor="middle" x="649.41" y="-433.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">POST /listings/</text>
+</g>
+<!-- getAllListings -->
+<g id="node2" class="node" pointer-events="visible" data-name="getAllListings">
+
+<polygon fill="none" stroke="white" points="599.79,-255 599.79,-291 699.03,-291 699.03,-255 599.79,-255"/>
+<text text-anchor="middle" x="649.41" y="-268.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">GET /listings/</text>
+</g>
+<!-- getListingById -->
+<g id="node3" class="node" pointer-events="visible" data-name="getListingById">
+
+<polygon fill="none" stroke="white" points="592.4,-200 592.4,-236 706.43,-236 706.43,-200 592.4,-200"/>
+<text text-anchor="middle" x="649.41" y="-213.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">GET /listings/:id</text>
+</g>
+<!-- deleteListing -->
+<g id="node4" class="node" pointer-events="visible" data-name="deleteListing">
+
+<polygon fill="none" stroke="white" points="579.56,-365 579.56,-401 719.27,-401 719.27,-365 579.56,-365"/>
+<text text-anchor="middle" x="649.41" y="-378.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">DELETE /listings/:id</text>
+</g>
+<!-- getAllUsers -->
+<g id="node5" class="node" pointer-events="visible" data-name="getAllUsers">
+
+<polygon fill="none" stroke="white" points="604.07,-145 604.07,-181 694.75,-181 694.75,-145 604.07,-145"/>
+<text text-anchor="middle" x="649.41" y="-158.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">GET /users/</text>
+</g>
+<!-- getUserByUsername -->
+<g id="node6" class="node" pointer-events="visible" data-name="getUserByUsername">
+
+<polygon fill="none" stroke="white" points="571,-90 571,-126 727.83,-126 727.83,-90 571,-90"/>
+<text text-anchor="middle" x="649.41" y="-103.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">GET /users/:username</text>
+</g>
+<!-- updateUser -->
+<g id="node7" class="node" pointer-events="visible" data-name="updateUser">
+
+<polygon fill="none" stroke="white" points="561.66,-530 561.66,-566 737.16,-566 737.16,-530 561.66,-530"/>
+<text text-anchor="middle" x="649.41" y="-543.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">PATCH /users/:username</text>
+</g>
+<!-- deleteUser -->
+<g id="node8" class="node" pointer-events="visible" data-name="deleteUser">
+
+<polygon fill="none" stroke="white" points="558.16,-585 558.16,-621 740.67,-621 740.67,-585 558.16,-585"/>
+<text text-anchor="middle" x="649.41" y="-598.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">DELETE /users/:username</text>
+</g>
+<!-- uploadImage -->
+<g id="node9" class="node" pointer-events="visible" data-name="uploadImage">
+
+<polygon fill="none" stroke="white" points="595.5,-310 595.5,-346 703.33,-346 703.33,-310 595.5,-310"/>
+<text text-anchor="middle" x="649.41" y="-323.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">POST /upload/</text>
+</g>
+<!-- updateListing -->
+<g id="node10" class="node" pointer-events="visible" data-name="updateListing">
+
+<polygon fill="none" stroke="white" points="587.73,-475 587.73,-511 711.09,-511 711.09,-475 587.73,-475"/>
+<text text-anchor="middle" x="649.41" y="-488.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">POST /listings/:id</text>
+</g>
+<!-- login -->
+<g id="node11" class="node" pointer-events="visible" data-name="login">
+
+<polygon fill="none" stroke="white" points="247.18,-72 247.18,-108 369.79,-108 369.79,-72 247.18,-72"/>
+<text text-anchor="middle" x="308.49" y="-85.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">POST /auth/login</text>
+</g>
+<!-- register -->
+<g id="node12" class="node" pointer-events="visible" data-name="register">
+
+<polygon fill="none" stroke="white" points="238.63,-17 238.63,-53 378.34,-53 378.34,-17 238.63,-17"/>
+<text text-anchor="middle" x="308.49" y="-30.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">POST /auth/register</text>
+</g>
+<!-- listings -->
+<g id="node13" class="node" pointer-events="visible" data-name="listings">
+
+<polygon fill="none" stroke="white" points="118.15,-237 118.15,-273 180.83,-273 180.83,-237 118.15,-237"/>
+<text text-anchor="middle" x="149.49" y="-250.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">/listings</text>
+</g>
+<!-- listings&#45;&gt;getAllListings -->
+<g id="edge17" class="edge" data-name="listings-&gt;getAllListings">
+
+<path fill="none" stroke="white" d="M180.52,-256.09C260.85,-258.99 481.85,-266.98 588.84,-270.85"/>
+<polygon fill="white" stroke="white" points="588.43,-274.33 598.55,-271.2 588.69,-267.34 588.43,-274.33"/>
+</g>
+<!-- listings&#45;&gt;getListingById -->
+<g id="edge18" class="edge" data-name="listings-&gt;getListingById">
+
+<path fill="none" stroke="white" d="M180.52,-252.77C259,-246.94 471.76,-231.13 581.28,-222.99"/>
+<polygon fill="white" stroke="white" points="581.28,-226.5 591,-222.27 580.76,-219.52 581.28,-226.5"/>
+</g>
+<!-- isLoggedin -->
+<g id="node14" class="node" pointer-events="visible" data-name="isLoggedin">
+
+<polygon fill="none" stroke="white" points="266.62,-420 266.62,-456 350.35,-456 350.35,-420 266.62,-420"/>
+<text text-anchor="middle" x="308.49" y="-433.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">isLoggedin</text>
+</g>
+<!-- listings&#45;&gt;isLoggedin -->
+<g id="edge1" class="edge" data-name="listings-&gt;isLoggedin">
+
+<path fill="none" stroke="white" d="M180.68,-262.53C191.72,-266.77 203.29,-273.25 210.63,-283 245.24,-329.01 193.8,-366.74 230.63,-411 237.27,-418.98 246.43,-424.61 256.11,-428.57"/>
+<polygon fill="white" stroke="white" points="254.7,-431.79 265.29,-431.76 256.99,-425.17 254.7,-431.79"/>
+</g>
+<!-- isLoggedin&#45;&gt;uploadImage -->
+<g id="edge20" class="edge" data-name="isLoggedin-&gt;uploadImage">
+
+<path fill="none" stroke="white" stroke-dasharray="5,2" d="M350.05,-430.02C362.76,-425.97 376.13,-419.94 386.34,-411 406.99,-392.94 391.85,-371.7 414.34,-356 463.69,-321.55 533.57,-317.44 584.12,-320.18"/>
+<polygon fill="white" stroke="white" points="583.84,-323.67 594.05,-320.83 584.3,-316.68 583.84,-323.67"/>
+</g>
+<!-- isListingOwner -->
+<g id="node15" class="node" pointer-events="visible" data-name="isListingOwner">
+
+<polygon fill="none" stroke="white" points="414.34,-365 414.34,-401 522.16,-401 522.16,-365 414.34,-365"/>
+<text text-anchor="middle" x="468.25" y="-378.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">isListingOwner</text>
+</g>
+<!-- isLoggedin&#45;&gt;isListingOwner -->
+<g id="edge2" class="edge" data-name="isLoggedin-&gt;isListingOwner">
+
+<path fill="none" stroke="white" d="M350.11,-423.84C366.83,-418.01 386.57,-411.13 405.03,-404.69"/>
+<polygon fill="white" stroke="white" points="406,-408.06 414.29,-401.46 403.69,-401.45 406,-408.06"/>
+</g>
+<!-- isCorrectUser -->
+<g id="node17" class="node" pointer-events="visible" data-name="isCorrectUser">
+
+<polygon fill="none" stroke="white" points="417.47,-420 417.47,-456 519.03,-456 519.03,-420 417.47,-420"/>
+<text text-anchor="middle" x="468.25" y="-433.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">isCorrectUser</text>
+</g>
+<!-- isLoggedin&#45;&gt;isCorrectUser -->
+<g id="edge7" class="edge" data-name="isLoggedin-&gt;isCorrectUser">
+
+<path fill="none" stroke="white" d="M350.11,-438C367.2,-438 387.45,-438 406.26,-438"/>
+<polygon fill="white" stroke="white" points="406.24,-441.5 416.24,-438 406.24,-434.5 406.24,-441.5"/>
+</g>
+<!-- isListingOwner&#45;&gt;newListing -->
+<g id="edge3" class="edge" data-name="isListingOwner-&gt;newListing">
+
+<path fill="none" stroke="white" d="M519.58,-400.98C529.67,-404.43 540.22,-407.92 550.16,-411 561.17,-414.41 572.94,-417.84 584.38,-421.05"/>
+<polygon fill="white" stroke="white" points="583.17,-424.35 593.74,-423.65 585.04,-417.6 583.17,-424.35"/>
+</g>
+<!-- isListingOwner&#45;&gt;deleteListing -->
+<g id="edge4" class="edge" data-name="isListingOwner-&gt;deleteListing">
+
+<path fill="none" stroke="white" d="M522.04,-383C536.57,-383 552.67,-383 568.37,-383"/>
+<polygon fill="white" stroke="white" points="568.2,-386.5 578.2,-383 568.2,-379.5 568.2,-386.5"/>
+</g>
+<!-- isListingOwner&#45;&gt;updateListing -->
+<g id="edge5" class="edge" data-name="isListingOwner-&gt;updateListing">
+
+<path fill="none" stroke="white" d="M517.94,-400.86C522.43,-403.78 526.61,-407.15 530.16,-411 547.78,-430.13 531.04,-448.36 550.16,-466 557.84,-473.09 567.22,-478.35 577.1,-482.24"/>
+<polygon fill="white" stroke="white" points="575.92,-485.54 586.52,-485.46 578.19,-478.91 575.92,-485.54"/>
+</g>
+<!-- users -->
+<g id="node16" class="node" pointer-events="visible" data-name="users">
+
+<polygon fill="none" stroke="white" points="122.43,-182 122.43,-218 176.55,-218 176.55,-182 122.43,-182"/>
+<text text-anchor="middle" x="149.49" y="-195.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">/users</text>
+</g>
+<!-- users&#45;&gt;getAllUsers -->
+<g id="edge21" class="edge" data-name="users-&gt;getAllUsers">
+
+<path fill="none" stroke="white" d="M176.28,-198.29C237.63,-194.18 397.08,-183.36 530.16,-173 550.68,-171.4 573.19,-169.53 593.01,-167.84"/>
+<polygon fill="white" stroke="white" points="593.17,-171.34 602.83,-167 592.57,-164.36 593.17,-171.34"/>
+</g>
+<!-- users&#45;&gt;getUserByUsername -->
+<g id="edge22" class="edge" data-name="users-&gt;getUserByUsername">
+
+<path fill="none" stroke="white" d="M176.36,-193.03C192.01,-188.94 212.39,-183.84 230.63,-180 343.67,-156.19 475.14,-134.51 559.95,-121.3"/>
+<polygon fill="white" stroke="white" points="560.24,-124.8 569.59,-119.8 559.17,-117.88 560.24,-124.8"/>
+</g>
+<!-- users&#45;&gt;isLoggedin -->
+<g id="edge6" class="edge" data-name="users-&gt;isLoggedin">
+
+<path fill="none" stroke="white" d="M176.25,-205.7C188.63,-209.8 202.51,-216.67 210.63,-228 258.3,-294.5 179.76,-346.92 230.63,-411 237.15,-419.22 246.34,-424.94 256.11,-428.92"/>
+<polygon fill="white" stroke="white" points="254.82,-432.18 265.41,-432.11 257.09,-425.55 254.82,-432.18"/>
+</g>
+<!-- isCorrectUser&#45;&gt;updateUser -->
+<g id="edge8" class="edge" data-name="isCorrectUser-&gt;updateUser">
+
+<path fill="none" stroke="white" d="M482.08,-455.95C496.53,-474.88 521.74,-504.23 550.16,-521 552.78,-522.55 555.5,-524.01 558.28,-525.39"/>
+<polygon fill="white" stroke="white" points="556.67,-528.5 567.22,-529.42 559.54,-522.12 556.67,-528.5"/>
+</g>
+<!-- isCorrectUser&#45;&gt;deleteUser -->
+<g id="edge9" class="edge" data-name="isCorrectUser-&gt;deleteUser">
+
+<path fill="none" stroke="white" d="M474.73,-455.78C484.77,-485.33 508.95,-544.39 550.16,-576 551.7,-577.18 553.29,-578.32 554.93,-579.4"/>
+<polygon fill="white" stroke="white" points="552.98,-582.32 563.39,-584.31 556.5,-576.26 552.98,-582.32"/>
+</g>
+<!-- Routes -->
+<g id="node18" class="node" pointer-events="visible" data-name="Routes">
+
+<polygon fill="none" stroke="white" points="0,-182 0,-218 60.36,-218 60.36,-182 0,-182"/>
+<text text-anchor="middle" x="30.18" y="-195.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">Routes</text>
+</g>
+<!-- Routes&#45;&gt;listings -->
+<g id="edge10" class="edge" data-name="Routes-&gt;listings">
+
+<path fill="none" stroke="white" d="M60.18,-214.43C69.18,-218.85 79.15,-223.68 88.36,-228 94.75,-231 101.55,-234.12 108.2,-237.13"/>
+<polygon fill="white" stroke="white" points="106.49,-240.2 117.05,-241.12 109.37,-233.82 106.49,-240.2"/>
+</g>
+<!-- Routes&#45;&gt;users -->
+<g id="edge11" class="edge" data-name="Routes-&gt;users">
+
+<path fill="none" stroke="white" d="M60.18,-200C75.57,-200 94.67,-200 111.16,-200"/>
+<polygon fill="white" stroke="white" points="111.11,-203.5 121.11,-200 111.11,-196.5 111.11,-203.5"/>
+</g>
+<!-- auth -->
+<g id="node19" class="node" pointer-events="visible" data-name="auth">
+
+<polygon fill="none" stroke="white" points="122.49,-72 122.49,-108 176.49,-108 176.49,-72 122.49,-72"/>
+<text text-anchor="middle" x="149.49" y="-85.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">/auth</text>
+</g>
+<!-- Routes&#45;&gt;auth -->
+<g id="edge12" class="edge" data-name="Routes-&gt;auth">
+
+<path fill="none" stroke="white" d="M39.94,-182.27C49.65,-164.12 66.83,-136.09 88.36,-118 95.43,-112.06 103.96,-107.1 112.36,-103.08"/>
+<polygon fill="white" stroke="white" points="113.66,-106.33 121.4,-99.1 110.84,-99.92 113.66,-106.33"/>
+</g>
+<!-- conversations -->
+<g id="node20" class="node" pointer-events="visible" data-name="conversations">
+
+<polygon fill="none" stroke="white" points="96.36,-127 96.36,-163 202.63,-163 202.63,-127 96.36,-127"/>
+<text text-anchor="middle" x="149.49" y="-140.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">/conversations</text>
+</g>
+<!-- Routes&#45;&gt;conversations -->
+<g id="edge13" class="edge" data-name="Routes-&gt;conversations">
+
+<path fill="none" stroke="white" d="M60.25,-186.23C69.26,-181.98 79.21,-177.29 88.36,-173 92.07,-171.26 95.91,-169.46 99.78,-167.66"/>
+<polygon fill="white" stroke="white" points="101.03,-170.93 108.61,-163.53 98.07,-164.59 101.03,-170.93"/>
+</g>
+<!-- upload -->
+<g id="node21" class="node" pointer-events="visible" data-name="upload">
+
+<polygon fill="none" stroke="white" points="118.53,-292 118.53,-328 180.46,-328 180.46,-292 118.53,-292"/>
+<text text-anchor="middle" x="149.49" y="-305.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">/upload</text>
+</g>
+<!-- Routes&#45;&gt;upload -->
+<g id="edge14" class="edge" data-name="Routes-&gt;upload">
+
+<path fill="none" stroke="white" d="M39.66,-217.67C49.26,-236.08 66.45,-264.74 88.36,-283 94.32,-287.97 101.35,-292.21 108.46,-295.74"/>
+<polygon fill="white" stroke="white" points="106.89,-298.87 117.44,-299.81 109.77,-292.49 106.89,-298.87"/>
+</g>
+<!-- auth&#45;&gt;login -->
+<g id="edge15" class="edge" data-name="auth-&gt;login">
+
+<path fill="none" stroke="white" d="M176.42,-90C192.73,-90 214.65,-90 235.9,-90"/>
+<polygon fill="white" stroke="white" points="235.73,-93.5 245.73,-90 235.73,-86.5 235.73,-93.5"/>
+</g>
+<!-- auth&#45;&gt;register -->
+<g id="edge16" class="edge" data-name="auth-&gt;register">
+
+<path fill="none" stroke="white" d="M176.42,-80.92C195.15,-74.36 221.27,-65.21 245.26,-56.8"/>
+<polygon fill="white" stroke="white" points="246.4,-60.11 254.68,-53.5 244.08,-53.5 246.4,-60.11"/>
+</g>
+<!-- upload&#45;&gt;isLoggedin -->
+<g id="edge19" class="edge" data-name="upload-&gt;isLoggedin">
+
+<path fill="none" stroke="white" stroke-dasharray="5,2" d="M160.36,-327.88C173.58,-350.31 199.09,-388.53 230.63,-411 238.24,-416.43 247.05,-420.85 255.93,-424.43"/>
+<polygon fill="white" stroke="white" points="254.7,-427.7 265.3,-427.86 257.11,-421.13 254.7,-427.7"/>
+</g>
+<!-- authenticateJWT -->
+<g id="node22" class="node" pointer-events="visible" data-name="authenticateJWT">
+
+<polygon fill="none" stroke="white" points="247.96,-365 247.96,-401 369.01,-401 369.01,-365 247.96,-365"/>
+<text text-anchor="middle" x="308.49" y="-378.9" font-family="Helvetica,sans-Serif" font-size="14.00" fill="white">authenticateJWT</text>
+</g>
+</g>
+</svg>
