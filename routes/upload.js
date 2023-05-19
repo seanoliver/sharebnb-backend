@@ -36,45 +36,44 @@ const router = new express.Router();
  * @throws {Error} If an error occurs during upload.
  */
 router.post('/image', upload.single('image'), async (req, res, next) => {
-  try {
-    const file = req.file;
-    const key = Date.now().toString() + '_' + file.originalname;
-    const bucketName = process.env.AWS_S3_BUCKET_NAME;
+	try {
+		const file = req.file;
+		const key = Date.now().toString() + '_' + file.originalname;
+		const bucketName = process.env.AWS_S3_BUCKET_NAME;
 
-    // Upload the file to S3
-    const upload = new Upload({
-      client: s3Client,
-      params: {
-        Bucket: bucketName,
-        Key: key,
-        Body: file.buffer,
-        ContentType: file.mimetype,
-        ContentDisposition: 'inline',
-      },
-    });
-    await upload.done();
+		// Upload the file to S3
+		const upload = new Upload({
+			client: s3Client,
+			params: {
+				Bucket: bucketName,
+				Key: key,
+				Body: file.buffer,
+				ContentType: file.mimetype,
+				ContentDisposition: 'inline',
+			},
+		});
+		await upload.done();
 
-    // Generate a pre-signed URL for the uploaded file
-    const presigner = new S3RequestPresigner(s3Client.config);
-    const getObjectCommand = new PutObjectCommand({
-      Bucket: bucketName,
-      Key: key,
-    });
-    const request = await createRequest(s3Client, getObjectCommand);
-    const imageUrl = formatUrl(request, presigner);
+		// Generate a pre-signed URL for the uploaded file
+		const presigner = new S3RequestPresigner(s3Client.config);
+		const getObjectCommand = new PutObjectCommand({
+			Bucket: bucketName,
+			Key: key,
+		});
+		const request = await createRequest(s3Client, getObjectCommand);
+		const imageUrl = formatUrl(request, presigner);
 
-    //TODO: fix .replace to remove baseurl
-    res.send({
-      message: 'Image uploaded successfully',
-      imageUrl: imageUrl.replace(process.env.BUCKET_BASE_URL, ''),
-    });
-  } catch (error) {
-    res.status(500).send({
-      message: 'An error occurred while uploading the image',
-      error: error.message,
-    });
-  }
+		//TODO: fix .replace to remove baseurl
+		res.send({
+			message: 'Image uploaded successfully',
+			imageUrl: imageUrl.replace(process.env.BUCKET_BASE_URL, ''),
+		});
+	} catch (error) {
+		res.status(500).send({
+			message: 'An error occurred while uploading the image',
+			error: error.message,
+		});
+	}
 });
-
 
 module.exports = router;
