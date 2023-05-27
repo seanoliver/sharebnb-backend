@@ -22,10 +22,10 @@ class Listing {
 	 */
 	static async create(data) {
 		const ownerResult = await db.query(
-			`SELECT id
-				 FROM users
+			`	SELECT id
+				FROM users
 				WHERE username = $1`,
-			[data.ownerUsername]
+				[data.ownerUsername]
 		);
 
 		const ownerId = ownerResult.rows[0].id;
@@ -128,42 +128,44 @@ class Listing {
 	 *      ownerId }, ...]
 	 */
 	static async findAll({ minPrice, maxPrice, genre } = {}) {
-		// TODO: (Nice to have) Add enum for genre in jsonschema
+
+		const selectClause = `
+			l.id as listingId,
+			l.name,
+			l.description,
+			l.price,
+			l.street,
+			l.city,
+			l.state,
+			l.zip,
+			l.genre,
+			l.owner_id as ownerId,
+			p.photo_url as photoUrl
+		`
+
 		const { where, vals } = this._filterWhereBuilder({
 			minPrice,
 			maxPrice,
 			genre,
 		});
 
-		const listingRes = await db.query(
-			`
-     SELECT id as listingId,
-            name,
-            description,
-            price,
-            street,
-            city,
-            state,
-            zip,
-            genre,
-            owner_id as ownerId
-        FROM listings
-            ${where}`,
+		const photoSubquery = `
+			SELECT listing_id, MIN(photo_url) as photo_url
+			FROM photos
+			GROUP BY listing_id
+		`;
+
+		const listingRes = await db.query(`
+			SELECT ${selectClause}
+			FROM listings l
+			LEFT JOIN (${photoSubquery}) p
+			ON l.id = p.listing_id
+			${where}`,
 			vals
 		);
 
 		const listings =  listingRes.rows;
-		// listings.map(async (listing) => {
 
-		// const photoResult = await db.query(
-		// 	`SELECT photo_url AS photoUrl
-    //    FROM photos
-    //   WHERE listing_id = $1`,
-		// 	[listing.listingId]
-		// );
-		// const photo = photoResult.rows[0];
-		// if (photo) listing.photoUrl = photo.photoUrl;
-		// });
 		return listings;
 
 	}
@@ -198,8 +200,9 @@ class Listing {
 		if (!listing) throw new NotFoundError(`No listing: ${listingId}`);
 
 		const photoResult = await db.query(
-			`SELECT photo_url AS photoUrl
-       FROM photos
+			`
+			SELECT photo_url AS photoUrl
+      FROM photos
       WHERE listing_id = $1`,
 			[listing.listingId]
 		);
@@ -252,11 +255,11 @@ class Listing {
 	 * @throws {NotFoundError} If listing not found.
 	 */
 	static async remove(listingId) {
-		const result = await db.query(
-			`DELETE
-       FROM listings
-       WHERE id = $1
-       RETURNING id`,
+		const result = await db.query(`
+			DELETE
+				FROM listings
+				WHERE id = $1
+				RETURNING id`,
 			[listingId]
 		);
 
